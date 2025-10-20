@@ -1,0 +1,1 @@
+ament_prepend_unique_value GZ_SIM_RESOURCE_PATH "$COLCON_CURRENT_PREFIX/share/greenhorn_description/worlds"
