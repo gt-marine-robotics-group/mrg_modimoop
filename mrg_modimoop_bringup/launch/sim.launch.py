@@ -20,7 +20,7 @@ def generate_launch_description():
     # Include the world launch immediately
     world_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(world_launch_file),
-        launch_arguments={'world': 'simple'}.items()
+        launch_arguments={'world': 'ocean'}.items()
     )
 
     # Include the vehicle launch with a 10-second delay
@@ -31,7 +31,7 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource(vehicle_launch_file),
                 launch_arguments={
                     'vehicle_type': 'mrg_modimoop',
-                    'world_name': 'simple'}.items()
+                    'world_name': 'ocean'}.items()
             )
         ]
     )

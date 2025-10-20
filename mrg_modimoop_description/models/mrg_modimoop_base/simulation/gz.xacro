@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="asv_world_plugins">
+
+    <!-- Global Buoyancy system (world plugin in Gazebo Sim) -->
+    <gazebo>
+      <plugin
+          filename="gz-waves1-hydrodynamics-system"
+          name="gz::sim::systems::Hydrodynamics">
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

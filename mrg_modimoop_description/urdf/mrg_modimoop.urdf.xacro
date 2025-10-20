@@ -237,5 +237,65 @@
   -->
   <!-- ========================================================= -->
 
+  <!-- HYDRODYNAMICS for hull -->
+  <!-- HYDRODYNAMICS for hull -->
+  <gazebo>
+    <plugin filename="gz-sim-hydrodynamics-system"
+            name="gz::sim::systems::Hydrodynamics">
+      <!-- required: which link carries this hydro model -->
+      <link_name>hull</link_name>
+
+      <!-- optional: fluid density (kg/m^3) -->
+      <water_density>1025</water_density>
+
+      <!-- Linear damping (1st-order) -->
+      <xU>  400  </xU>   <!-- surge -->
+      <yV>  800  </yV>   <!-- sway  -->
+      <zW> 1500  </zW>   <!-- heave -->
+      <kP>   50  </kP>   <!-- roll  -->
+      <mQ>   50  </mQ>   <!-- pitch -->
+      <nR>  120  </nR>   <!-- yaw   -->
+
+      <!-- Quadratic damping with |vel| terms (2nd-order) -->
+      <xUabsU>  80  </xUabsU>
+      <yVabsV> 200  </yVabsV>
+      <zWabsW> 380  </zWabsW>
+      <kPabsP>  10  </kPabsP>
+      <mQabsQ>  10  </mQabsQ>
+      <nRabsR>  25  </nRabsR>
+
+      <!-- (Deprecated) diagonal added mass — OK to leave at 0 to start -->
+      <xDotU>  0  </xDotU>
+      <yDotV>  0  </yDotV>
+      <zDotW>  0  </zDotW>
+      <kDotP>  0  </kDotP>
+      <mDotQ>  0  </mDotQ>
+      <nDotR>  0  </nDotR>
+    </plugin>
+  </gazebo>
+
+  <!-- HYDRODYNAMICS for keel (single-link keel) -->
+  <gazebo>
+    <plugin filename="gz-sim-hydrodynamics-system"
+            name="gz::sim::systems::Hydrodynamics">
+      <link_name>keel</link_name>
+      <water_density>1025</water_density>
+
+      <!-- Keel is more “draggy” in heave / yaw; start with higher Z / yaw damping -->
+      <xU>  200  </xU>
+      <yV>  600  </yV>
+      <zW> 2200  </zW>
+      <kP>   40  </kP>
+      <mQ>   40  </mQ>
+      <nR>  200  </nR>
+
+      <xUabsU>  50  </xUabsU>
+      <yVabsV> 150  </yVabsV>
+      <zWabsW> 500  </zWabsW>
+      <kPabsP>   8  </kPabsP>
+      <mQabsQ>   8  </mQabsQ>
+      <nRabsR>  40  </nRabsR>
+    </plugin>
+  </gazebo>
 </robot>
 
