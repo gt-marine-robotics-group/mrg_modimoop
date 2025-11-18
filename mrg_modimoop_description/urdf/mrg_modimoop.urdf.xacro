@@ -11,10 +11,10 @@
   <!-- ===================== -->
   <xacro:property name="mesh_scale" value="0.001 0.001 0.001"/>
   <!-- Rough masses (kg). Replace with measured values -->
-  <xacro:property name="m_hull"     value="40.0"/>
-  <xacro:property name="m_keel"     value="12.0"/>        <!-- total for keel (plate+bulb) if single link -->
-  <xacro:property name="m_wingsail" value="6.0"/>
-  <xacro:property name="m_rudder"   value="2.0"/>
+  <xacro:property name="m_hull"     value="20.0"/>
+  <xacro:property name="m_keel"     value="3.0"/>        <!-- total for keel (plate+bulb) if single link -->
+  <xacro:property name="m_wingsail" value="1.0"/>
+  <xacro:property name="m_rudder"   value="0.1"/>
 
   <!-- Simple diagonal inertias (kg·m²). Replace with real inertias -->
   <xacro:property name="I_small" value="0.02"/>
@@ -34,7 +34,7 @@
     <inertial>
       <origin xyz="0.175 -0.55 0.45" rpy="1.570796 0 0"/>
       <mass value="${m_hull}"/>
-      <inertia ixx="0.8" ixy="0.0" ixz="0.0" iyy="1.2" iyz="0.0" izz="1.6"/>
+      <inertia ixx="${m_hull*0.016}" ixy="0.0" ixz="${m_hull*0.016}" iyy="1.2" iyz="0.0" izz="${m_hull*0.016}"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="1.570796 0 0"/>
@@ -47,52 +47,6 @@
       <origin xyz="0 0 0" rpy="1.570796 0 0"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/hull/hull.STL" scale="${mesh_scale}"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <!-- Keel as a single link with two mesh components (plate + bulb) -->
-  <link name="keel">
-    <inertial>
-      <!-- Set the CoM where you expect the keel COM; adjust for your CAD -->
-      <origin xyz="0.175 -0.55 0.1" rpy="1.570796 0 0"/>
-      <mass value="${m_keel}"/>
-      <inertia ixx="${I_small}" ixy="0.0" ixz="0.0" iyy="${I_small}" iyz="0.0" izz="${I_small}"/>
-    </inertial>
-
-    <!-- Plate visual -->
-    <visual>
-      <!-- Align to plate’s CAD frame relative to keel link frame -->
-      <origin xyz="0.175 -0.7 0.44" rpy="0 1.570796 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
-      </geometry>
-      <material name="Blue"/>
-    </visual>
-
-    <!-- Bulb visual -->
-    <visual>
-      <!-- Align bulb mesh relative to keel link frame -->
-      <origin xyz="0.135 -0.21 0.015" rpy="1.570796 0 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
-      </geometry>
-      <material name="Blue"/>
-    </visual>
-
-    <!-- Plate collision -->
-    <collision>
-      <origin xyz="0.175 -0.7 0.44" rpy="0 1.570796 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
-      </geometry>
-    </collision>
-
-    <!-- Bulb collision -->
-    <collision>
-      <origin xyz="0.135 -0.21 0.015" rpy="1.570796 0 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
       </geometry>
     </collision>
   </link>
@@ -141,16 +95,60 @@
     </collision>
   </link>
 
+  <!-- Keel as a single link with two mesh components (plate + bulb) -->
+  <link name="keel">
+    <inertial>
+      <!-- Set the CoM where you expect the keel COM; adjust for your CAD -->
+      <origin xyz="0.175 -0.55 0.1" rpy="1.570796 0 0"/>
+      <mass value="${m_keel}"/>
+      <inertia ixx="${m_keel*0.016}" ixy="0.0" ixz="0.0" iyy="${m_keel*0.016}" iyz="0.0" izz="${m_keel*0.016}"/>
+    </inertial>
+
+    <!-- Plate visual -->
+    <visual>
+      <!-- Align to plate’s CAD frame relative to keel link frame -->
+      <origin xyz="0.175 -0.7 0.44" rpy="0 1.570796 0"/>
+      <geometry>
+        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+
+    <!-- Bulb visual -->
+    <visual>
+      <!-- Align bulb mesh relative to keel link frame -->
+      <origin xyz="0.135 -0.21 0.015" rpy="1.570796 0 0"/>
+      <geometry>
+        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+
+    <!-- Plate collision -->
+    <collision>
+      <origin xyz="0.175 -0.7 0.44" rpy="0 1.570796 0"/>
+      <geometry>
+        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
+      </geometry>
+    </collision>
+
+    <!-- Bulb collision -->
+    <collision>
+      <origin xyz="0.135 -0.21 0.015" rpy="1.570796 0 0"/>
+      <geometry>
+        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+
   <!-- ===================== -->
   <!-- Joints                -->
   <!-- ===================== -->
 
   <!-- Keel fixed to hull -->
-  <!---->
   <joint name="keel_mount" type="fixed">
     <parent link="hull"/>
     <child link="keel"/>
-    <!-- Place the keel under the hull; tune xyz/rpy to match CAD frames -->
     <origin xyz="0 0 -0.1" rpy="0 0 0"/>
   </joint>
 
@@ -174,127 +172,34 @@
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
-  <!-- ========================================================= -->
-  <!-- OPTIONAL: model plate + bulb as separate links (fixed)    -->
-  <!-- Un-comment this block and remove the single-link keel     -->
-  <!-- setup above if you want distinct masses/inertias.         -->
-  
-  <!--
-  <link name="keel_plate">
-    <inertial>
-      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
-      <mass value="5.0"/>
-      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
-    </inertial>
-    <visual>
-      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
-      </geometry>
-      <material name="Blue"/>
-    </visual>
-    <collision>
-      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
-      </geometry>
-    </collision>
-  </link>
-  
-
-  <link name="keel_bulb">
-    <inertial>
-      <origin xyz="0 0 -0.35" rpy="0 0 0"/>
-      <mass value="7.0"/>
-      <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.03" iyz="0" izz="0.03"/>
-    </inertial>
-    <visual>
-      <origin xyz="0 0 -0.35" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
-      </geometry>
-      <material name="Blue"/>
-    </visual>
-    <collision>
-      <origin xyz="0 0 -0.35" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="keel_plate_mount" type="fixed">
-    <parent link="hull"/>
-    <child link="keel_plate"/>
-    <origin xyz="0 0 -0.1" rpy="0 0 0"/>
-  </joint>
-
-  <joint name="keel_bulb_fix" type="fixed">
-    <parent link="keel_plate"/>
-    <child link="keel_bulb"/>
-    <origin xyz="0 0 -0.2" rpy="0 0 0"/>
-  </joint>
-  -->
-  <!-- ========================================================= -->
-
-  <!-- HYDRODYNAMICS for hull -->
   <!-- HYDRODYNAMICS for hull -->
   <gazebo>
-    <plugin filename="gz-sim-hydrodynamics-system"
+    <plugin filename="gz-waves1-hydrodynamics-system"
             name="gz::sim::systems::Hydrodynamics">
       <!-- required: which link carries this hydro model -->
-      <link_name>hull</link_name>
+      <enable>hull</enable>
 
-      <!-- optional: fluid density (kg/m^3) -->
-      <water_density>1025</water_density>
+      <hydrodynamics>
+          <damping_on>0</damping_on>
+          <viscous_drag_on>0</viscous_drag_on>
+          <pressure_drag_on>0</pressure_drag_on>
+        
+          <!-- Linear and Angular Damping -->
+          <cDampL1>1.0E-6</cDampL1>
+          <cDampL2>1.0E-6</cDampL2>
+          <cDampR1>1.0E-6</cDampR1>
+          <cDampR2>1.0E-6</cDampR2>
+        
+          <!-- 'Pressure' Drag -->
+          <cPDrag1>1.0E+2</cPDrag1>
+          <cPDrag2>1.0E+2</cPDrag2>
+          <fPDrag>0.4</fPDrag>
+          <cSDrag1>1.0E+2</cSDrag1>
+          <cSDrag2>1.0E+2</cSDrag2>
+          <fSDrag>0.4</fSDrag>
+          <vRDrag>1.0</vRDrag>
+        </hydrodynamics>
 
-      <!-- Linear damping (1st-order) -->
-      <xU>  400  </xU>   <!-- surge -->
-      <yV>  800  </yV>   <!-- sway  -->
-      <zW> 1500  </zW>   <!-- heave -->
-      <kP>   50  </kP>   <!-- roll  -->
-      <mQ>   50  </mQ>   <!-- pitch -->
-      <nR>  120  </nR>   <!-- yaw   -->
-
-      <!-- Quadratic damping with |vel| terms (2nd-order) -->
-      <xUabsU>  80  </xUabsU>
-      <yVabsV> 200  </yVabsV>
-      <zWabsW> 380  </zWabsW>
-      <kPabsP>  10  </kPabsP>
-      <mQabsQ>  10  </mQabsQ>
-      <nRabsR>  25  </nRabsR>
-
-      <!-- (Deprecated) diagonal added mass — OK to leave at 0 to start -->
-      <xDotU>  0  </xDotU>
-      <yDotV>  0  </yDotV>
-      <zDotW>  0  </zDotW>
-      <kDotP>  0  </kDotP>
-      <mDotQ>  0  </mDotQ>
-      <nDotR>  0  </nDotR>
-    </plugin>
-  </gazebo>
-
-  <!-- HYDRODYNAMICS for keel (single-link keel) -->
-  <gazebo>
-    <plugin filename="gz-sim-hydrodynamics-system"
-            name="gz::sim::systems::Hydrodynamics">
-      <link_name>keel</link_name>
-      <water_density>1025</water_density>
-
-      <!-- Keel is more “draggy” in heave / yaw; start with higher Z / yaw damping -->
-      <xU>  200  </xU>
-      <yV>  600  </yV>
-      <zW> 2200  </zW>
-      <kP>   40  </kP>
-      <mQ>   40  </mQ>
-      <nR>  200  </nR>
-
-      <xUabsU>  50  </xUabsU>
-      <yVabsV> 150  </yVabsV>
-      <zWabsW> 500  </zWabsW>
-      <kPabsP>   8  </kPabsP>
-      <mQabsQ>   8  </mQabsQ>
-      <nRabsR>  40  </nRabsR>
     </plugin>
   </gazebo>
 </robot>
