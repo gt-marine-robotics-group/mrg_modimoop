@@ -177,28 +177,28 @@
     <plugin filename="gz-waves1-hydrodynamics-system"
             name="gz::sim::systems::Hydrodynamics">
       <!-- required: which link carries this hydro model -->
-      <enable>hull</enable>
+      <enable>MODIMOOP::hull</enable>
 
       <hydrodynamics>
-          <damping_on>0</damping_on>
-          <viscous_drag_on>0</viscous_drag_on>
-          <pressure_drag_on>0</pressure_drag_on>
-        
-          <!-- Linear and Angular Damping -->
-          <cDampL1>1.0E-6</cDampL1>
-          <cDampL2>1.0E-6</cDampL2>
-          <cDampR1>1.0E-6</cDampR1>
-          <cDampR2>1.0E-6</cDampR2>
-        
-          <!-- 'Pressure' Drag -->
-          <cPDrag1>1.0E+2</cPDrag1>
-          <cPDrag2>1.0E+2</cPDrag2>
-          <fPDrag>0.4</fPDrag>
-          <cSDrag1>1.0E+2</cSDrag1>
-          <cSDrag2>1.0E+2</cSDrag2>
-          <fSDrag>0.4</fSDrag>
-          <vRDrag>1.0</vRDrag>
-        </hydrodynamics>
+        <damping_on>0</damping_on>
+        <viscous_drag_on>0</viscous_drag_on>
+        <pressure_drag_on>0</pressure_drag_on>
+      
+        <!-- Linear and Angular Damping -->
+        <cDampL1>1.0E-6</cDampL1>
+        <cDampL2>1.0E-6</cDampL2>
+        <cDampR1>1.0E-6</cDampR1>
+        <cDampR2>1.0E-6</cDampR2>
+      
+        <!-- 'Pressure' Drag -->
+        <cPDrag1>1.0E+2</cPDrag1>
+        <cPDrag2>1.0E+2</cPDrag2>
+        <fPDrag>0.4</fPDrag>
+        <cSDrag1>1.0E+2</cSDrag1>
+        <cSDrag2>1.0E+2</cSDrag2>
+        <fSDrag>0.4</fSDrag>
+        <vRDrag>1.0</vRDrag>
+      </hydrodynamics>
 
     </plugin>
   </gazebo>
