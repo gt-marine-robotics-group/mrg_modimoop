@@ -1,10 +1,38 @@
-   1 <?xml version="1.0"?>
-   2 <robot name="myfirst">
-   3   <link name="base_link">
-   4     <visual>
-   5       <geometry>
-   6         <cylinder length="0.6" radius="0.2"/>
-   7       </geometry>
-   8     </visual>
-   9   </link>
-  10 </robot>
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="simple_asv_float">
+
+  <xacro:property name="L" value="1.0"/>
+  <xacro:property name="W" value="0.4"/>
+  <xacro:property name="H" value="0.2"/>
+  <xacro:property name="m" value="0.1"/>
+
+  <xacro:property name="ixx" value="${(1.0/12.0)*m*(W*W + H*H)}"/>
+  <xacro:property name="iyy" value="${(1.0/12.0)*m*(L*L + H*H)}"/>
+  <xacro:property name="izz" value="${(1.0/12.0)*m*(L*L + W*W)}"/>
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${m}"/>
+      <inertia ixx="${ixx}" ixy="0" ixz="0" iyy="${iyy}" iyz="0" izz="${izz}"/>
+    </inertial>
+    <visual><geometry><box size="${L} ${W} ${H}"/></geometry></visual>
+    <collision><geometry><box size="${L} ${W} ${H}"/></geometry></collision>
+  </link>
+
+  <gazebo>
+
+    <!-- Hydrodynamics -->
+    <plugin filename="gz-waves1-hydrodynamics-system"
+            name="gz::sim::systems::Hydrodynamics">
+      <enable>simple_asv_float</enable>
+      <hydrodynamics>
+        <damping_on>0</damping_on>
+            <damping_on>0</damping_on>
+            <viscous_drag_on>0</viscous_drag_on>
+            <pressure_drag_on>0</pressure_drag_on>
+      </hydrodynamics>
+    </plugin>
+  </gazebo>
+
+</robot>

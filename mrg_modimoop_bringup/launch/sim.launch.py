@@ -30,7 +30,7 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(vehicle_launch_file),
                 launch_arguments={
-                    'vehicle_type': 'mrg_modimoop',
+                    'vehicle_type': 'simple_asv',
                     'world_name': 'ocean'}.items()
             )
         ]
