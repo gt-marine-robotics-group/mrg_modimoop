@@ -4,7 +4,7 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <!-- Basic MODIMOOP description -->
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="MODIMOOP">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema" name="MODIMOOP">
 
   <!-- ===================== -->
   <!-- Common parameters     -->
@@ -12,7 +12,7 @@
   <xacro:property name="mesh_scale" value="0.001 0.001 0.001"/>
   <!-- Rough masses (kg). Replace with measured values -->
   <xacro:property name="m_hull"     value="20.0"/>
-  <xacro:property name="m_keel"     value="3.0"/>        <!-- total for keel (plate+bulb) if single link -->
+  <xacro:property name="m_keel"     value="40.0"/>        <!-- total for keel (plate+bulb) if single link -->
   <xacro:property name="m_wingsail" value="1.0"/>
   <xacro:property name="m_rudder"   value="0.1"/>
 
@@ -32,9 +32,9 @@
   <!-- Hull is the base -->
   <link name="hull">
     <inertial>
-      <origin xyz="0.175 -0.55 0.45" rpy="1.570796 0 0"/>
+      <origin xyz="0.175 -0.55 0.45" rpy="1.570796 0 1.570796"/>
       <mass value="${m_hull}"/>
-      <inertia ixx="${m_hull*0.016}" ixy="0.0" ixz="${m_hull*0.016}" iyy="1.2" iyz="0.0" izz="${m_hull*0.016}"/>
+      <inertia ixx="4.848" ixy="0" ixz="0" iyy="7.847" iyz="0" izz="5.3975"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="1.570796 0 0"/>
@@ -43,12 +43,13 @@
       </geometry>
       <material name="Grey"/>
     </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="1.570796 0 0"/>
+    <collision name="hull_collision">
+      <origin xyz="0.178 -0.55 0.45" rpy="0 0 1.570796"/>
       <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/hull/hull.STL" scale="${mesh_scale}"/>
+        <box size="1.125 0.35 0.25"/>
       </geometry>
     </collision>
+
   </link>
 
   <!-- Wingsail (revolute about vertical axis for trim) -->
@@ -65,10 +66,11 @@
       </geometry>
       <material name="Red"/>
     </visual>
-    <collision>
-      <origin xyz="-0.05 -0.015 0" rpy="0 0 0"/>
+    <collision name="wingsail_collision">
+      <origin xyz="0.12 0.03 0.675" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/mainsail/mainsail.STL" scale="${mesh_scale}"/>
+        <!-- chord, thickness, height (meters) -->
+        <box size="0.30 0.04 1.32"/>
       </geometry>
     </collision>
   </link>
@@ -78,7 +80,7 @@
     <inertial>
       <origin xyz="0 0.08 -0.08" rpy="0 0 0"/>
       <mass value="${m_rudder}"/>
-      <inertia ixx="${I_small}" ixy="0.0" ixz="0.0" iyy="${I_small}" iyz="0.0" izz="${I_small}"/>
+      <inertia ixx="$0.0" ixy="0.0" ixz="0.0" iyy="$0.0" iyz="0.0" izz="$0.0"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 1.570796 0"/>
@@ -87,10 +89,11 @@
       </geometry>
       <material name="Black"/>
     </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 1.570796 0"/>
+    <collision name="rudder_collision">
+      <origin xyz="0 0.07 -0.075" rpy="1.570796 1.570796 0"/>
       <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/rudder/rudder.STL" scale="${mesh_scale}"/>
+        <!-- length (fore-aft), thickness, height (meters) -->
+        <box size="0.15 0.01 0.15"/>
       </geometry>
     </collision>
   </link>
@@ -125,18 +128,21 @@
     </visual>
 
     <!-- Plate collision -->
-    <collision>
-      <origin xyz="0.175 -0.7 0.44" rpy="0 1.570796 0"/>
+    <collision name="keel_plate_collision">
+      <origin xyz="0.175 -0.55 0.34" rpy="0 0 1.570796"/>
       <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
+        <!-- chord, thickness, span (meters) — tune -->
+        <box size="0.25 0.0125 0.50"/>
       </geometry>
     </collision>
 
+
     <!-- Bulb collision -->
-    <collision>
-      <origin xyz="0.135 -0.21 0.015" rpy="1.570796 0 0"/>
+    <collision name="keel_bulb_collision">
+      <origin xyz="0.18 -0.575 0.06" rpy="1.570796 0 0"/>
       <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
+        <!-- length is along cylinder Z axis in its collision frame -->
+        <cylinder length="0.7" radius="0.04"/>
       </geometry>
     </collision>
   </link>
@@ -153,54 +159,167 @@
   </joint>
 
   <!-- Wingsail rotates around Z (trim). Limit range ±90° by default -->
-  <joint name="wingsail_joint" type="revolute">
+  <joint name="wingsail_joint" type="continuous">
     <parent link="hull"/>
     <child link="wingsail"/>
     <origin xyz="0.2 -0.65 0.65" rpy="0 0 1.570796"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.5708" upper="1.5708" effort="20.0" velocity="1.5"/>
     <dynamics damping="0.2" friction="0.0"/>
   </joint>
 
+
   <!-- Rudder rotates around Z for yaw -->
-  <joint name="rudder_joint" type="revolute">
+  <joint name="rudder_joint" type="continuous">
     <parent link="hull"/>
     <child link="rudder"/>
     <origin xyz="0.175 -0.3 0.3" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-0.7854" upper="0.7854" effort="10.0" velocity="2.0"/>
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
-  <!-- HYDRODYNAMICS for hull -->
-  <gazebo>
-    <plugin filename="gz-waves1-hydrodynamics-system"
-            name="gz::sim::systems::Hydrodynamics">
-      <!-- required: which link carries this hydro model -->
-      <enable>MODIMOOP::hull</enable>
+  <!-- ===================== -->
+  <!-- Sensor frame links    -->
+  <!-- ===================== -->
 
-      <hydrodynamics>
-        <damping_on>0</damping_on>
-        <viscous_drag_on>0</viscous_drag_on>
-        <pressure_drag_on>0</pressure_drag_on>
-      
-        <!-- Linear and Angular Damping -->
-        <cDampL1>1.0E-6</cDampL1>
-        <cDampL2>1.0E-6</cDampL2>
-        <cDampR1>1.0E-6</cDampR1>
-        <cDampR2>1.0E-6</cDampR2>
-      
-        <!-- 'Pressure' Drag -->
-        <cPDrag1>1.0E+2</cPDrag1>
-        <cPDrag2>1.0E+2</cPDrag2>
-        <fPDrag>0.4</fPDrag>
-        <cSDrag1>1.0E+2</cSDrag1>
-        <cSDrag2>1.0E+2</cSDrag2>
-        <fSDrag>0.4</fSDrag>
-        <vRDrag>1.0</vRDrag>
-      </hydrodynamics>
+  <link name="imu_link"/>
+  <joint name="imu_mount" type="fixed">
+    <parent link="hull"/>
+    <child link="imu_link"/>
+    <!-- put IMU near your hull CG -->
+    <origin xyz="0.175 -0.55 0.45" rpy="0 0 0"/>
+  </joint>
 
+  <link name="gps_link"/>
+  <joint name="gps_mount" type="fixed">
+    <parent link="hull"/>
+    <child link="gps_link"/>
+    <!-- e.g., GPS on deck -->
+    <origin xyz="0.25 -0.55 0.75" rpy="0 0 0"/>
+  </joint>  
+
+  <link name="anemometer_link"/>
+  <joint name="anemometer_mount" type="fixed">
+    <parent link="hull"/>
+    <child link="anemometer_link"/>
+    <origin xyz="0.25 -0.55 1.00" rpy="0 0 0"/>
+  </joint>
+
+  <link name="mag_link"/>
+  <joint name="mag_mount" type="fixed">
+    <parent link="hull"/>
+    <child link="mag_link"/>
+    <origin xyz="0.20 -0.55 0.50" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="wingsail">
+    <enable_wind>true</enable_wind>
+    <plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <!-- Fluid / wind -->
+      <air_density>1.225</air_density>          <!-- kg/m^3 -->
+      <wind_velocity>0 0 0</wind_velocity>      <!-- world frame; set nonzero for steady wind -->
+
+      <!-- Geometry / scaling -->
+      <area>0.35</area>                          <!-- m^2, effective planform area -->
+      <chord>0.25</chord>                        <!-- m, typical sail chord -->
+      <aspect_ratio>3.0</aspect_ratio>           <!-- span^2 / area -->
+
+      <!-- Orientation: expressed in the wingsail_link frame -->
+      <forward>1 0 0</forward>                   <!-- chord direction -->
+      <upward>0 0 1</upward>                     <!-- span direction -->
+
+      <!-- Aerodynamic center of pressure (in link frame) -->
+      <cp>0 0 0.4</cp>                           <!-- tweak: typically mid-height and near 1/4 chord -->
+
+      <!-- Basic coeff model -->
+      <cla>5.5</cla>                             <!-- lift slope (per rad); ~2*pi is 6.28, 5–6 is typical -->
+      <cda>0.8</cda>                             <!-- drag at high AoA, tune -->
+      <cma>0.0</cma>                             <!-- pitching moment slope, optional -->
+      <alpha0>0.0</alpha0>                       <!-- zero-lift AoA (rad) -->
+      <stall_angle>0.45</stall_angle>            <!-- rad (~26 deg) -->
+      <stall_angle2>-0.45</stall_angle2>
+      <cla_stall>1.0</cla_stall>                 <!-- post-stall slope (smaller) -->
+      <cla_stall2>-1.0</cla_stall2>
+
+      <!-- Optional limits -->
+      <a0>0.0</a0>                                <!-- sometimes used by older variants -->
+
+      <linkname>wingsail</linkname>
+    </plugin>
+    <plugin
+        filename="gz-sim-apply-joint-force-system"
+        name="gz::sim::systems::ApplyJointForce">
+        <joint_name>wingsail_joint</joint_name>
     </plugin>
   </gazebo>
+
+    <!-- ===================== -->
+  <!-- Gazebo sensors        -->
+  <!-- ===================== -->
+
+  <!-- IMU -->
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>1</always_on>
+      <update_rate>200</update_rate>
+      <visualize>0</visualize>
+
+      <!-- Noise models are optional; start clean -->
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.0002</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.0002</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.0002</stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="anemometer_link">
+    <sensor name="anemometer" type="custom" gz:type="anemometer">
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <topic>anemometer</topic>
+      <gz:anemometer>
+         <!-- <noise type="gaussian">
+         <mean>0.2</mean>
+          <stddev>0.1</stddev>
+         </noise> -->
+      </gz:anemometer>
+    </sensor>
+  </gazebo>
+
+  <!-- GPS / NavSat -->
+  <gazebo reference="gps_link">
+    <sensor name="gps_sensor" type="navsat">
+      <always_on>1</always_on>
+      <update_rate>10</update_rate>
+      <visualize>0</visualize>
+    </sensor>
+  </gazebo>
+
+  <!-- Magnetometer -->
+  <gazebo reference="mag_link">
+    <sensor name="mag_sensor" type="magnetometer">
+      <always_on>1</always_on>
+      <update_rate>50</update_rate>
+      <visualize>0</visualize>
+      <magnetometer/>
+    </sensor>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+      <joint_name>wingsail_joint</joint_name>
+      <joint_name>rudder_joint</joint_name>
+      <update_rate>50</update_rate>
+    </plugin>
+  </gazebo>
+
 </robot>
 

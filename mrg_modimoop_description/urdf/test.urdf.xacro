@@ -16,23 +16,22 @@
       <mass value="${m}"/>
       <inertia ixx="${ixx}" ixy="0" ixz="0" iyy="${iyy}" iyz="0" izz="${izz}"/>
     </inertial>
-    <visual><geometry><box size="${L} ${W} ${H}"/></geometry></visual>
-    <collision><geometry><box size="${L} ${W} ${H}"/></geometry></collision>
+    <visual><geometry>
+        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/hull/hull.STL" scale="0.001 0.001 0.001"/>
+      </geometry></visual>
+      <material><color rgba="0.6 0.6 0.6 1.0"/></material>
+    <collision>
+    <geometry>
+      <box>
+        <size>1.20 0.40 0.25</size>
+      </box>
+    </geometry>
+    </collision>
   </link>
 
   <gazebo>
 
-    <!-- Hydrodynamics -->
-    <plugin filename="gz-waves1-hydrodynamics-system"
-            name="gz::sim::systems::Hydrodynamics">
-      <enable>simple_asv_float</enable>
-      <hydrodynamics>
-        <damping_on>0</damping_on>
-            <damping_on>0</damping_on>
-            <viscous_drag_on>0</viscous_drag_on>
-            <pressure_drag_on>0</pressure_drag_on>
-      </hydrodynamics>
-    </plugin>
+    
   </gazebo>
 
 </robot>
