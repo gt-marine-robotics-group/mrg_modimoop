@@ -1,78 +1,29 @@
-# Thruster port
-#- ros_topic_name: "/wamv/thrusters/left/thrust"
-#  gz_topic_name: "/wamv/thrusters/left/thrust"
-#  ros_type_name: "std_msgs/msg/Float64"
-#  gz_type_name: "gz.msgs.Double"
-#  direction: ROS_TO_GZ
+- ros_topic_name: "/modimoop/imu/data"
+  gz_topic_name: "/model/MODIMOOP/link/imu_link/sensor/imu_sensor/imu"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU"
+  direction: GZ_TO_ROS
 
-# Thrust starboard
-#- ros_topic_name: "/wamv/thrusters/right/thrust"
-# gz_topic_name: "/wamv/thrusters/right/thrust"
-#  ros_type_name: "std_msgs/msg/Float64"
-#  gz_type_name: "gz.msgs.Double"
-#  direction: ROS_TO_GZ
+- ros_topic_name: "/modimoop/gps/fix"
+  gz_topic_name: "/model/MODIMOOP/link/hull/sensor/gps_sensor/gps"
+  ros_type_name: "sensor_msgs/msg/NavSatFix"
+  gz_type_name: "gz.msgs.NavSat"
+  direction: GZ_TO_ROS
 
+- ros_topic_name: "/modimoop/mag"
+  gz_topic_name: "/model/MODIMOOP/link/hull/sensor/mag_sensor/mag"
+  ros_type_name: "sensor_msgs/msg/MagneticField"
+  gz_type_name: "gz.msgs.Magnetometer"
+  direction: GZ_TO_ROS
 
-# Center Camera OAKD
-#RGB Image
-#- ros_topic_name: "/center_camera/rgb/image_raw"
-#  gz_topic_name: "/wamv/center_camera/rgbd_image/image"
-#  ros_type_name: "sensor_msgs/msg/Image"
-#  gz_type_name: "gz.msgs.Image"
-#  direction: GZ_TO_ROS
+- ros_topic_name: "/modimoop/joint_states"
+  gz_topic_name: "/model/MODIMOOP/joint_state"
+  ros_type_name: "sensor_msgs/msg/JointState"
+  gz_type_name: "gz.msgs.Model"   # OR gz.msgs.Joint, etc. depends on what it actually is
+  direction: GZ_TO_ROS
 
-#Depth Image
-#- ros_topic_name: "/center_camera/stereo/image_raw"
-#  gz_topic_name: "/wamv/center_camera/rgbd_image/depth_image"
-#  ros_type_name: "sensor_msgs/msg/Image"
-#  gz_type_name: "gz.msgs.Image"
-#  direction: GZ_TO_ROS
-
-#Point Cloud
-#- ros_topic_name: "/center_camera/points"
-#  gz_topic_name: "/wamv/center_camera/rgbd_image/points"
-#  ros_type_name: "sensor_msgs/msg/PointCloud2"
-#  gz_type_name: "gz.msgs.PointCloudPacked"
-#  direction: GZ_TO_ROS
-
-#RGB Camera Info
-#- ros_topic_name: "/center_camera/rgb/camera_info"
-#  gz_topic_name: "/wamv/center_camera/rgbd_image/camera_info"
-#  ros_type_name: "sensor_msgs/msg/CameraInfo"
-#  gz_type_name: "gz.msgs.CameraInfo"
-#  direction: GZ_TO_ROS
-
-#Left Image
-#- ros_topic_name: "/center_camera/left/image_raw"
-#  gz_topic_name: "/wamv/center_camera/left_image"
-#  ros_type_name: "sensor_msgs/msg/Image"
-#  gz_type_name: "gz.msgs.Image"
-#  direction: GZ_TO_ROS
-
-#Left Camera Info
-#- ros_topic_name: "/center_camera/left/camera_info"
-#  gz_topic_name: "/wamv/center_camera/left_image/camera_info"
-#  ros_type_name: "sensor_msgs/msg/CameraInfo"
-#  gz_type_name: "gz.msgs.CameraInfo"
-#  direction: GZ_TO_ROS
-
-#Right Image
-#- ros_topic_name: "/center_camera/right/image_raw"
-#  gz_topic_name: "/wamv/center_camera/right_image"
-#  ros_type_name: "sensor_msgs/msg/Image"
-#  gz_type_name: "gz.msgs.Image"
-#  direction: GZ_TO_ROS
-
-#Right Camera Info
-#- ros_topic_name: "/center_camera/right/camera_info"
-#  gz_topic_name: "/wamv/center_camera/right_image/camera_info"
-#  ros_type_name: "sensor_msgs/msg/CameraInfo"
-#  gz_type_name: "gz.msgs.CameraInfo"
-#  direction: GZ_TO_ROS
-
-#OAKD IMU
-#- ros_topic_name: "/center_camera/oakd_imu/data"
-#  gz_topic_name: "/wamv/center_camera/oakd_imu/data"
-#  ros_type_name: "sensor_msgs/msg/Imu"
-#  gz_type_name: "gz.msgs.IMU"
-#  direction: GZ_TO_ROS
+- ros_topic_name: "/modimoop/anemometer"
+  gz_topic_name: "/anemometer"
+  ros_type_name: "geometry_msgs/msg/Vector3"
+  gz_type_name: "gz.msgs.Vector3d"
+  direction: GZ_TO_ROS
