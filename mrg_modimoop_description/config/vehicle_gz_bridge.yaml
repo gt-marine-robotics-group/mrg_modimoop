@@ -19,7 +19,7 @@
 - ros_topic_name: "/modimoop/joint_state"
   gz_topic_name: "/modimoop/joint_state"
   ros_type_name: "sensor_msgs/msg/JointState"
-  gz_type_name: "gz.msgs.Model"   # OR gz.msgs.Joint, etc. depends on what it actually is
+  gz_type_name: "gz.msgs.Model"
   direction: GZ_TO_ROS
 
 - ros_topic_name: "/modimoop/anemometer"
@@ -27,3 +27,21 @@
   ros_type_name: "geometry_msgs/msg/Vector3"
   gz_type_name: "gz.msgs.Vector3d"
   direction: GZ_TO_ROS
+
+- ros_topic_name: "/modimoop/cmd/wingsail_pos"
+  gz_topic_name:  "/modimoop/cmd/wingsail_pos"
+  ros_type_name:  "std_msgs/msg/Float64"
+  gz_type_name:   "gz.msgs.Double"
+  direction:      ROS_TO_GZ
+
+- ros_topic_name: "/modimoop/cmd/rudder_pos"
+  gz_topic_name:  "/modimoop/cmd/rudder_pos"
+  ros_type_name:  "std_msgs/msg/Float64"
+  gz_type_name:   "gz.msgs.Double"
+  direction:      ROS_TO_GZ
+
+- ros_topic_name: "/modimoop/cmd/backwing_pos"
+  gz_topic_name:  "/modimoop/cmd/backwing_pos"
+  ros_type_name:  "std_msgs/msg/Float64"
+  gz_type_name:   "gz.msgs.Double"
+  direction:      ROS_TO_GZ
