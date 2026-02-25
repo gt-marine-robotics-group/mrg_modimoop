@@ -10,11 +10,17 @@
   <!-- Common parameters     -->
   <!-- ===================== -->
   <xacro:property name="mesh_scale" value="0.001 0.001 0.001"/>
+  <xacro:property name="backwing_mesh_scale" value="0.0004 0.0004 0.0004"/>
   <!-- Rough masses (kg). Replace with measured values -->
   <xacro:property name="m_hull"     value="20.0"/>
   <xacro:property name="m_keel"     value="40.0"/>        <!-- total for keel (plate+bulb) if single link -->
   <xacro:property name="m_wingsail" value="1.0"/>
   <xacro:property name="m_rudder"   value="0.1"/>
+  <xacro:property name="m_backwing" value="0.2"/>
+  <xacro:property name="rudder_rod_radius" value="0.0045"/>
+  <xacro:property name="wingsail_rod_radius" value="0.01"/>
+  <xacro:property name="backwing_rod_radius" value="0.008"/>
+  <xacro:property name="rod_mass" value="0.001"/> 
 
   <!-- Simple diagonal inertias (kg·m²). Replace with real inertias -->
   <xacro:property name="I_small" value="0.02"/>
@@ -24,6 +30,7 @@
   <material name="Blue"><color rgba="0.2 0.4 0.8 1.0"/></material>
   <material name="Red"><color rgba="0.8 0.2 0.2 1.0"/></material>
   <material name="Black"><color rgba="0.05 0.05 0.05 1.0"/></material>
+  <material name="Pink"><color rgba="1.0 0.2 0.6 1.0"/></material>
 
   <!-- ===================== -->
   <!-- Links                 -->
@@ -41,7 +48,7 @@
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/hull/hull.STL" scale="${mesh_scale}"/>
       </geometry>
-      <material name="Grey"/>
+      <material name="Pink"/>
     </visual>
     <collision name="hull_collision">
       <origin xyz="0.178 -0.55 0.45" rpy="0 0 1.570796"/>
@@ -55,22 +62,45 @@
   <!-- Wingsail (revolute about vertical axis for trim) -->
   <link name="wingsail">
     <inertial>
-      <origin xyz="0.125 0.034 0.5" rpy="0 0 0"/>
+      <origin xyz="0.15 0.034 0.5" rpy="0 0 0"/>
       <mass value="${m_wingsail}"/>
       <inertia ixx="${I_small}" ixy="0.0" ixz="0.0" iyy="${I_small}" iyz="0.0" izz="${I_small}"/>
     </inertial>
     <visual>
-      <origin xyz="-0.05 -0.015 0" rpy="0 0 0"/>
+      <origin xyz="-0.025 -0.015 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/mainsail/mainsail.STL" scale="${mesh_scale}"/>
       </geometry>
-      <material name="Red"/>
+      <material name="Pink"/>
     </visual>
     <collision name="wingsail_collision">
-      <origin xyz="0.12 0.03 0.675" rpy="0 0 0"/>
+      <origin xyz="0.15 0.03 0.675" rpy="0 0 0"/>
       <geometry>
         <!-- chord, thickness, height (meters) -->
         <box size="0.30 0.04 1.32"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="backwing">
+    <inertial>
+      <!-- <origin xyz="0.25 0.02 0.2" rpy="0 0 0"/> -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${m_backwing}"/>
+      <inertia ixx="${I_small}" ixy="0.0" ixz="0.0" iyy="${I_small}" iyz="0.0" izz="${I_small}"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/mainsail/mainsail.STL" scale="${backwing_mesh_scale}"/>
+      </geometry>
+      <material name="Pink"/>
+    </visual>
+    <collision name="backwing_collision">
+      <origin xyz="0.07 0.03 0.25" rpy="0 0 0"/>
+      <geometry>
+        <!-- chord, thickness, height (meters) -->
+        <box size="0.13 0.02 0.5"/>
       </geometry>
     </collision>
   </link>
@@ -80,7 +110,7 @@
     <inertial>
       <origin xyz="0 0.08 -0.08" rpy="0 0 0"/>
       <mass value="${m_rudder}"/>
-      <inertia ixx="$0.0" ixy="0.0" ixz="0.0" iyy="$0.0" iyz="0.0" izz="$0.0"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 1.570796 0"/>
@@ -114,7 +144,7 @@
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
       </geometry>
-      <material name="Blue"/>
+      <material name="Grey"/>
     </visual>
 
     <!-- Bulb visual -->
@@ -124,7 +154,7 @@
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
       </geometry>
-      <material name="Blue"/>
+      <material name="Grey"/>
     </visual>
 
     <!-- Plate collision -->
@@ -167,6 +197,25 @@
     <dynamics damping="0.2" friction="0.0"/>
   </joint>
 
+  <link name="backwing_hinge"/>
+
+  <joint name="backwing_hinge_joint" type="fixed">
+    <parent link="wingsail"/>
+    <child link="backwing_hinge"/>
+    <origin xyz="0.45 0.0125 0.4" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="backwing_joint" type="continuous">
+    <parent link="backwing_hinge"/>
+    <child link="backwing"/>
+
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+
+    <!-- coaxial -->
+    <axis xyz="0 0 1"/>
+
+    <dynamics damping="0.05" friction="0.0"/>
+  </joint>
 
   <!-- Rudder rotates around Z for yaw -->
   <joint name="rudder_joint" type="continuous">
@@ -175,6 +224,96 @@
     <origin xyz="0.175 -0.3 0.3" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+
+  <link name = "rudder_rod">
+    <inertial>
+      <origin xyz="0 0 0" rpy = "0 0 0"/>
+      <mass value="${rod_mass}"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${rudder_rod_radius}" length="0.20"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+  </link>
+
+  <joint name="rudder_rod_mount" type="fixed">
+    <parent link="hull"/>
+    <child link="rudder_rod"/>
+    <origin xyz="0.175 -0.3 0.3" rpy="0 0 0"/>
+  </joint>
+
+  <link name="wingsail_rod">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${rod_mass}"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0.01 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${wingsail_rod_radius}" length="0.40"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+  </link>
+
+  <joint name="wingsail_rod_mount" type="fixed">
+    <parent link="hull"/>
+    <child link="wingsail_rod"/>
+    <origin xyz="0.2 -0.65 0.65" rpy="0 0 1.570796"/>
+  </joint>
+
+  <link name="backwing_rod_top">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${rod_mass}"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+
+    <visual>
+      <!-- Rotate cylinder so it runs along X -->
+      <origin xyz="0 0.008 0.7" rpy="0 1.570796 0"/>
+      <geometry>
+        <cylinder radius="${backwing_rod_radius}" length="0.425"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+  </link>
+
+  <link name="backwing_rod_bottom">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${rod_mass}"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0.008 0.35" rpy="0 1.570796 0"/>
+      <geometry>
+        <cylinder radius="${backwing_rod_radius}" length="0.425"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+  </link>
+
+  <joint name="backwing_rod_top_mount" type="fixed">
+    <parent link="wingsail"/>
+    <child link="backwing_rod_top"/>
+    <origin xyz="0.25 0.02 0.2" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="backwing_rod_bottom_mount" type="fixed">
+    <parent link="wingsail"/>
+    <child link="backwing_rod_bottom"/>
+    <origin xyz="0.25 0.02 0.05" rpy="0 0 0"/>
   </joint>
 
   <!-- ===================== -->
@@ -213,42 +352,51 @@
 
   <gazebo reference="wingsail">
     <enable_wind>true</enable_wind>
-    <plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
-      <!-- Fluid / wind -->
-      <air_density>1.225</air_density>          <!-- kg/m^3 -->
-      <wind_velocity>0 0 0</wind_velocity>      <!-- world frame; set nonzero for steady wind -->
-
-      <!-- Geometry / scaling -->
-      <area>0.35</area>                          <!-- m^2, effective planform area -->
-      <chord>0.25</chord>                        <!-- m, typical sail chord -->
-      <aspect_ratio>3.0</aspect_ratio>           <!-- span^2 / area -->
-
-      <!-- Orientation: expressed in the wingsail_link frame -->
-      <forward>1 0 0</forward>                   <!-- chord direction -->
-      <upward>0 0 1</upward>                     <!-- span direction -->
-
-      <!-- Aerodynamic center of pressure (in link frame) -->
-      <cp>0 0 0.4</cp>                           <!-- tweak: typically mid-height and near 1/4 chord -->
-
-      <!-- Basic coeff model -->
-      <cla>5.5</cla>                             <!-- lift slope (per rad); ~2*pi is 6.28, 5–6 is typical -->
-      <cda>0.8</cda>                             <!-- drag at high AoA, tune -->
-      <cma>0.0</cma>                             <!-- pitching moment slope, optional -->
-      <alpha0>0.0</alpha0>                       <!-- zero-lift AoA (rad) -->
-      <stall_angle>0.45</stall_angle>            <!-- rad (~26 deg) -->
-      <stall_angle2>-0.45</stall_angle2>
-      <cla_stall>1.0</cla_stall>                 <!-- post-stall slope (smaller) -->
-      <cla_stall2>-1.0</cla_stall2>
-
-      <!-- Optional limits -->
-      <a0>0.0</a0>                                <!-- sometimes used by older variants -->
-
-      <linkname>wingsail</linkname>
+    <plugin name="gz::sim::systems::SailLiftDrag"
+            filename="asv_sim2-sail-lift-drag-system">
+          <a0>0.0</a0>
+          <cla>6.2832</cla>
+          <alpha_stall>0.1592</alpha_stall>
+          <cla_stall>-0.7083</cla_stall>
+          <cda>0.63662</cda>
+          <area>0.17</area>
+          <fluid_density>1.225</fluid_density>
+          <forward>1 0 0</forward>
+          <upward>0 1 0</upward>
+          <cp>0 0 0</cp>
+          <link_name>wingsail</link_name>
+          <radial_symmetry>1</radial_symmetry>
+          <topic>wingsail/lift_drag</topic>
     </plugin>
     <plugin
         filename="gz-sim-apply-joint-force-system"
         name="gz::sim::systems::ApplyJointForce">
         <joint_name>wingsail_joint</joint_name>
+    </plugin>
+  </gazebo>
+
+  <gazebo reference="backwing">
+    <enable_wind>true</enable_wind>
+    <plugin name="gz::sim::systems::SailLiftDrag"
+            filename="asv_sim2-sail-lift-drag-system">
+          <a0>0.0</a0>
+          <cla>6.2832</cla>
+          <alpha_stall>0.1592</alpha_stall>
+          <cla_stall>-0.7083</cla_stall>
+          <cda>0.63662</cda>
+          <area>0.05</area>
+          <fluid_density>1.225</fluid_density>
+          <forward>1 0 0</forward>
+          <upward>0 1 0</upward>
+          <cp>0 0 0</cp>
+          <link_name>backwing</link_name>
+          <radial_symmetry>1</radial_symmetry>
+          <topic>backwing/lift_drag</topic>
+    </plugin>
+    <plugin
+        filename="gz-sim-apply-joint-force-system"
+        name="gz::sim::systems::ApplyJointForce">
+        <joint_name>backwing_joint</joint_name>
     </plugin>
   </gazebo>
 
@@ -262,8 +410,8 @@
       <always_on>1</always_on>
       <update_rate>200</update_rate>
       <visualize>0</visualize>
+      <topic>/modimoop/imu</topic>
 
-      <!-- Noise models are optional; start clean -->
       <imu>
         <angular_velocity>
           <x><noise type="gaussian"><mean>0</mean><stddev>0.0002</stddev></noise></x>
@@ -298,6 +446,7 @@
     <sensor name="gps_sensor" type="navsat">
       <always_on>1</always_on>
       <update_rate>10</update_rate>
+      <topic>/modimoop/navsat</topic>
       <visualize>0</visualize>
     </sensor>
   </gazebo>
@@ -308,6 +457,7 @@
       <always_on>1</always_on>
       <update_rate>50</update_rate>
       <visualize>0</visualize>
+      <topic>/modimoop/mag</topic>
       <magnetometer/>
     </sensor>
   </gazebo>
@@ -317,6 +467,8 @@
             name="gz::sim::systems::JointStatePublisher">
       <joint_name>wingsail_joint</joint_name>
       <joint_name>rudder_joint</joint_name>
+      <joint_name>backwing_joint</joint_name>
+      <topic>/modimoop/joint_state</topic>
       <update_rate>50</update_rate>
     </plugin>
   </gazebo>
