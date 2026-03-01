@@ -350,8 +350,7 @@
     <origin xyz="0.20 -0.55 0.50" rpy="0 0 0"/>
   </joint>
 
-  <gazebo reference="wingsail">
-    <enable_wind>true</enable_wind>
+  <gazebo>
     <plugin name="gz::sim::systems::SailLiftDrag"
             filename="asv_sim2-sail-lift-drag-system">
           <a0>0.0</a0>
@@ -366,17 +365,9 @@
           <cp>0 0 0</cp>
           <link_name>wingsail</link_name>
           <radial_symmetry>1</radial_symmetry>
-          <topic>wingsail/lift_drag</topic>
+          <topic>lift_drag</topic>
     </plugin>
-    <plugin
-        filename="gz-sim-apply-joint-force-system"
-        name="gz::sim::systems::ApplyJointForce">
-        <joint_name>wingsail_joint</joint_name>
-    </plugin>
-  </gazebo>
-
-  <gazebo reference="backwing">
-    <enable_wind>true</enable_wind>
+  
     <plugin name="gz::sim::systems::SailLiftDrag"
             filename="asv_sim2-sail-lift-drag-system">
           <a0>0.0</a0>
@@ -391,13 +382,41 @@
           <cp>0 0 0</cp>
           <link_name>backwing</link_name>
           <radial_symmetry>1</radial_symmetry>
-          <topic>backwing/lift_drag</topic>
+          <topic>lift_drag</topic>
     </plugin>
-    <plugin
-        filename="gz-sim-apply-joint-force-system"
-        name="gz::sim::systems::ApplyJointForce">
-        <joint_name>backwing_joint</joint_name>
-    </plugin>
+
+    <plugin name="gz::sim::systems::FoilLiftDrag"
+            filename="asv_sim2-foil-lift-drag-system">
+          <a0>0.0</a0>
+          <cla>6.2832</cla>
+          <alpha_stall>0.1592</alpha_stall>
+          <cla_stall>-0.7083</cla_stall>
+          <cda>0.63662</cda>
+          <area>0.17</area>
+          <fluid_density>1000</fluid_density>
+          <forward>1 0 0</forward>
+          <upward>0 1 0</upward>
+          <cp>0 0 0</cp>
+          <link_name>keel</link_name>
+          <radial_symmetry>1</radial_symmetry>
+          <topic>lift_drag</topic>
+        </plugin>
+        <plugin name="gz::sim::systems::FoilLiftDrag"
+            filename="asv_sim2-foil-lift-drag-system">
+          <a0>0.0</a0>
+          <cla>6.2832</cla>
+          <alpha_stall>0.1592</alpha_stall>
+          <cla_stall>-0.7083</cla_stall>
+          <cda>0.63662</cda>
+          <area>0.12</area>
+          <fluid_density>1000</fluid_density>
+          <forward>1 0 0</forward>
+          <upward>0 1 0</upward>
+          <cp>-0.06 0 -0.2</cp>
+          <link_name>rudder</link_name>
+          <radial_symmetry>1</radial_symmetry>
+          <topic>lift_drag</topic>
+        </plugin>
   </gazebo>
 
     <!-- ===================== -->
@@ -470,6 +489,28 @@
       <joint_name>backwing_joint</joint_name>
       <topic>/modimoop/joint_state</topic>
       <update_rate>50</update_rate>
+    </plugin>
+  </gazebo>
+
+
+  <gazebo>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>wingsail_joint</joint_name>
+      <topic>/modimoop/cmd/wingsail_pos</topic>
+      <!-- optional PID knobs depending on version; start without -->
+    </plugin>
+
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>rudder_joint</joint_name>
+      <topic>/modimoop/cmd/rudder_pos</topic>
+    </plugin>
+
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>backwing_joint</joint_name>
+      <topic>/modimoop/cmd/backwing_pos</topic>
     </plugin>
   </gazebo>
 
