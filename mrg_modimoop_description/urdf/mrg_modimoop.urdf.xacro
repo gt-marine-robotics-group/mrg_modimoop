@@ -12,11 +12,11 @@
   <xacro:property name="mesh_scale" value="0.001 0.001 0.001"/>
   <xacro:property name="backwing_mesh_scale" value="0.0004 0.0004 0.0004"/>
   <!-- Rough masses (kg). Replace with measured values -->
-  <xacro:property name="m_hull"     value="20.0"/>
-  <xacro:property name="m_keel"     value="40.0"/>        <!-- total for keel (plate+bulb) if single link -->
-  <xacro:property name="m_wingsail" value="1.0"/>
-  <xacro:property name="m_rudder"   value="0.1"/>
-  <xacro:property name="m_backwing" value="0.2"/>
+  <xacro:property name="m_hull"     value="22.83"/>
+  <xacro:property name="m_keel"     value="0.01"/>        <!-- total for keel (plate+bulb) if single link -->
+  <xacro:property name="m_wingsail" value="4.44"/>
+  <xacro:property name="m_rudder"   value="0.34"/>
+  <xacro:property name="m_backwing" value="0.17"/>
   <xacro:property name="rudder_rod_radius" value="0.0045"/>
   <xacro:property name="wingsail_rod_radius" value="0.01"/>
   <xacro:property name="backwing_rod_radius" value="0.008"/>
@@ -37,11 +37,12 @@
   <!-- ===================== -->
 
   <!-- Hull is the base -->
+  <!-- Hull is the base -->
   <link name="hull">
     <inertial>
-      <origin xyz="0.175 -0.55 0.45" rpy="1.570796 0 1.570796"/>
+      <origin xyz="0.175 -0.55 0.15" rpy="0 0 0"/>
       <mass value="${m_hull}"/>
-      <inertia ixx="4.848" ixy="0" ixz="0" iyy="7.847" iyz="0" izz="5.3975"/>
+      <inertia ixx="3.70506895" ixy="-0.00022839" ixz="-0.00008461" iyy="0.96696277" iyz="-0.64724529" izz="2.83543540"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="1.570796 0 0"/>
@@ -58,13 +59,12 @@
     </collision>
 
   </link>
-
   <!-- Wingsail (revolute about vertical axis for trim) -->
   <link name="wingsail">
     <inertial>
       <origin xyz="0.15 0.034 0.5" rpy="0 0 0"/>
       <mass value="${m_wingsail}"/>
-      <inertia ixx="${I_small}" ixy="0.0" ixz="0.0" iyy="${I_small}" iyz="0.0" izz="${I_small}"/>
+      <inertia ixx="0.78628153" ixy="-0.00004262" ixz="-0.00044123" iyy="0.32623116" iyz="-0.05493911" izz="0.46187925"/>
     </inertial>
     <visual>
       <origin xyz="-0.025 -0.015 0" rpy="0 0 0"/>
@@ -84,10 +84,9 @@
 
   <link name="backwing">
     <inertial>
-      <!-- <origin xyz="0.25 0.02 0.2" rpy="0 0 0"/> -->
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0.025 0.02 0.2" rpy="0 0 0"/>
       <mass value="${m_backwing}"/>
-      <inertia ixx="${I_small}" ixy="0.0" ixz="0.0" iyy="${I_small}" iyz="0.0" izz="${I_small}"/>
+      <inertia ixx="0.00415255" ixy="0.00000002" ixz="0" iyy="0.00011550" iyz="-0.00000140" izz="0.00405022"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -110,7 +109,7 @@
     <inertial>
       <origin xyz="0 0.08 -0.08" rpy="0 0 0"/>
       <mass value="${m_rudder}"/>
-      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+      <inertia ixx="0.00323999" ixy="0.00000021" ixz="0.00000004" iyy="0.00089298" iyz="0.00069153" izz="0.00234885"/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 1.570796 0"/>
@@ -132,7 +131,7 @@
   <link name="keel">
     <inertial>
       <!-- Set the CoM where you expect the keel COM; adjust for your CAD -->
-      <origin xyz="0.175 -0.55 0.1" rpy="1.570796 0 0"/>
+      <origin xyz="0.175 -0.55 0.1" rpy="0 0 0"/>
       <mass value="${m_keel}"/>
       <inertia ixx="${m_keel*0.016}" ixy="0.0" ixz="0.0" iyy="${m_keel*0.016}" iyz="0.0" izz="${m_keel*0.016}"/>
     </inertial>
@@ -360,9 +359,9 @@
           <cda>0.63662</cda>
           <area>0.17</area>
           <fluid_density>1.225</fluid_density>
-          <forward>1 0 0</forward>
+          <forward>-1 0 0</forward>
           <upward>0 1 0</upward>
-          <cp>0 0 0</cp>
+          <cp>0.15 0.034 0.5</cp>
           <link_name>wingsail</link_name>
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>
@@ -377,9 +376,9 @@
           <cda>0.63662</cda>
           <area>0.05</area>
           <fluid_density>1.225</fluid_density>
-          <forward>1 0 0</forward>
+          <forward>-1 0 0</forward>
           <upward>0 1 0</upward>
-          <cp>0 0 0</cp>
+          <cp>0.025 0.02 0.2</cp>
           <link_name>backwing</link_name>
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>
@@ -394,9 +393,9 @@
           <cda>0.63662</cda>
           <area>0.17</area>
           <fluid_density>1000</fluid_density>
-          <forward>1 0 0</forward>
-          <upward>0 1 0</upward>
-          <cp>0 0 0</cp>
+          <forward>0 -1 0</forward>
+          <upward>1 0 0</upward>
+          <cp>0.175 -0.55 0.1</cp>
           <link_name>keel</link_name>
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>
@@ -410,9 +409,9 @@
           <cda>0.63662</cda>
           <area>0.12</area>
           <fluid_density>1000</fluid_density>
-          <forward>1 0 0</forward>
-          <upward>0 1 0</upward>
-          <cp>-0.06 0 -0.2</cp>
+          <forward>0 -1 0</forward>
+          <upward>1 0 0</upward>
+          <cp>0 0.08 -0.08</cp>
           <link_name>rudder</link_name>
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>
