@@ -416,6 +416,25 @@
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>
         </plugin>
+
+        <plugin
+          filename="gz-waves1-hydrodynamics-system"
+          name="gz::sim::systems::Hydrodynamics">
+
+          <enable>none_mrg_modimoop::hull::hull_collision_collision</enable>
+
+          <hydrodynamics>
+            <damping_on>1</damping_on>
+            <viscous_drag_on>1</viscous_drag_on>
+            <pressure_drag_on>1</pressure_drag_on>
+          </hydrodynamics>
+          <markers>
+            <update_rate>10</update_rate>
+            <water_patch>0</water_patch>
+            <waterline>0</waterline>
+            <underwater_surface>0</underwater_surface>
+          </markers>
+        </plugin>
   </gazebo>
 
     <!-- ===================== -->
