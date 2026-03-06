@@ -62,7 +62,7 @@
   <!-- Wingsail (revolute about vertical axis for trim) -->
   <link name="wingsail">
     <inertial>
-      <origin xyz="0.15 0.034 0.5" rpy="0 0 0"/>
+      <origin xyz="0.15 0.034 0.5" rpy="1.570796 0 1.570796"/>
       <mass value="${m_wingsail}"/>
       <inertia ixx="0.78628153" ixy="-0.00004262" ixz="-0.00044123" iyy="0.32623116" iyz="-0.05493911" izz="0.46187925"/>
     </inertial>
@@ -84,14 +84,14 @@
 
   <link name="backwing">
     <inertial>
-      <origin xyz="0.025 0.02 0.2" rpy="0 0 0"/>
+      <origin xyz="0.025 0.02 0.2" rpy="1.570796 0 1.570796"/>
       <mass value="${m_backwing}"/>
       <inertia ixx="0.00415255" ixy="0.00000002" ixz="0" iyy="0.00011550" iyz="-0.00000140" izz="0.00405022"/>
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="-1.3 0.015 -0.5" rpy="1.570796 0 1.570796"/>
       <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/mainsail/mainsail.STL" scale="${backwing_mesh_scale}"/>
+        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/tailwing/tailwing.STL" scale="${mesh_scale}"/>
       </geometry>
       <material name="Pink"/>
     </visual>
@@ -99,7 +99,7 @@
       <origin xyz="0.07 0.03 0.25" rpy="0 0 0"/>
       <geometry>
         <!-- chord, thickness, height (meters) -->
-        <box size="0.13 0.02 0.5"/>
+        <box size="0.11 0.02 0.55"/>
       </geometry>
     </collision>
   </link>
@@ -136,42 +136,32 @@
       <inertia ixx="${m_keel*0.016}" ixy="0.0" ixz="0.0" iyy="${m_keel*0.016}" iyz="0.0" izz="${m_keel*0.016}"/>
     </inertial>
 
-    <!-- Plate visual -->
+    <!-- Keel visual -->
     <visual>
       <!-- Align to plate’s CAD frame relative to keel link frame -->
-      <origin xyz="0.175 -0.7 0.44" rpy="0 1.570796 0"/>
+      <origin xyz="0.175 -1.15 0.7" rpy="1.570796 0 3.14159"/>
       <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_plate.STL" scale="${mesh_scale}"/>
-      </geometry>
-      <material name="Grey"/>
-    </visual>
-
-    <!-- Bulb visual -->
-    <visual>
-      <!-- Align bulb mesh relative to keel link frame -->
-      <origin xyz="0.135 -0.21 0.015" rpy="1.570796 0 0"/>
-      <geometry>
-        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel_bulb.STL" scale="${mesh_scale}"/>
+        <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel.STL" scale="${mesh_scale}"/>
       </geometry>
       <material name="Grey"/>
     </visual>
 
     <!-- Plate collision -->
     <collision name="keel_plate_collision">
-      <origin xyz="0.175 -0.55 0.34" rpy="0 0 1.570796"/>
+      <origin xyz="0.175 -0.55 0.3" rpy="0 0 1.570796"/>
       <geometry>
         <!-- chord, thickness, span (meters) — tune -->
-        <box size="0.25 0.0125 0.50"/>
+        <box size="0.175 0.0125 0.70"/>
       </geometry>
     </collision>
 
 
     <!-- Bulb collision -->
     <collision name="keel_bulb_collision">
-      <origin xyz="0.18 -0.575 0.06" rpy="1.570796 0 0"/>
+      <origin xyz="0.175 -0.565 -0.08" rpy="1.570796 0 0"/>
       <geometry>
         <!-- length is along cylinder Z axis in its collision frame -->
-        <cylinder length="0.7" radius="0.04"/>
+        <cylinder length="0.325" radius="0.045"/>
       </geometry>
     </collision>
   </link>
@@ -279,9 +269,9 @@
 
     <visual>
       <!-- Rotate cylinder so it runs along X -->
-      <origin xyz="0 0.008 0.7" rpy="0 1.570796 0"/>
+      <origin xyz="-0.1 0.008 0.73" rpy="0 1.570796 0"/>
       <geometry>
-        <cylinder radius="${backwing_rod_radius}" length="0.425"/>
+        <cylinder radius="${backwing_rod_radius}" length="0.625"/>
       </geometry>
       <material name="Black"/>
     </visual>
@@ -295,9 +285,9 @@
     </inertial>
 
     <visual>
-      <origin xyz="0 0.008 0.35" rpy="0 1.570796 0"/>
+      <origin xyz="-0.1 0.008 0.32" rpy="0 1.570796 0"/>
       <geometry>
-        <cylinder radius="${backwing_rod_radius}" length="0.425"/>
+        <cylinder radius="${backwing_rod_radius}" length="0.625"/>
       </geometry>
       <material name="Black"/>
     </visual>
