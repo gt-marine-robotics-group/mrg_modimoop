@@ -37,10 +37,12 @@
   <!-- ===================== -->
 
   <!-- Hull is the base -->
-  <!-- Hull is the base -->
   <link name="hull">
     <inertial>
+      <!--<origin xyz="0	0.75915	-1.33874" rpy="0 0 0"/>-->
       <origin xyz="0.175 -0.55 0.15" rpy="0 0 0"/>
+      <!--<origin xyz="0.175 -1.1 0.575" rpy="0 0 0"/>-->
+      <!--<origin xyz="0.175 -0.34085 0.575" rpy="0 0 0"/>-->
       <mass value="${m_hull}"/>
       <inertia ixx="3.70506895" ixy="-0.00022839" ixz="-0.00008461" iyy="0.96696277" iyz="-0.64724529" izz="2.83543540"/>
     </inertial>
@@ -57,8 +59,8 @@
         <box size="1.125 0.35 0.25"/>
       </geometry>
     </collision>
-
   </link>
+
   <!-- Wingsail (revolute about vertical axis for trim) -->
   <link name="wingsail">
     <inertial>
@@ -130,8 +132,8 @@
   <!-- Keel as a single link with two mesh components (plate + bulb) -->
   <link name="keel">
     <inertial>
-      <!-- Set the CoM where you expect the keel COM; adjust for your CAD -->
-      <origin xyz="0.175 -0.55 0.1" rpy="0 0 0"/>
+      <!-- Set the CoM where you expect the keel COM; adjust for your CAD --> <!-- 0.175 -0.55 0.1 -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="${m_keel}"/>
       <inertia ixx="${m_keel*0.016}" ixy="0.0" ixz="0.0" iyy="${m_keel*0.016}" iyz="0.0" izz="${m_keel*0.016}"/>
     </inertial>
@@ -139,7 +141,7 @@
     <!-- Keel visual -->
     <visual>
       <!-- Align to plate’s CAD frame relative to keel link frame -->
-      <origin xyz="0.175 -1.15 0.7" rpy="1.570796 0 3.14159"/>
+      <origin xyz="0 0 0" rpy="1.570796 0 3.14159"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel.STL" scale="${mesh_scale}"/>
       </geometry>
@@ -174,7 +176,7 @@
   <joint name="keel_mount" type="fixed">
     <parent link="hull"/>
     <child link="keel"/>
-    <origin xyz="0 0 -0.1" rpy="0 0 0"/>
+    <origin xyz="0.175 -1.15 0.7" rpy="0 0 0"/>
   </joint>
 
   <!-- Wingsail rotates around Z (trim). Limit range ±90° by default -->
