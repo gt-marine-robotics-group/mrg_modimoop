@@ -1,3 +1,9 @@
+# RVIZ Visualization Tool Luanch File
+# Written by: William McConnell
+# Build with --symlink-install and run the command
+# ros2 param set /rsp robot_description "$(xacro src//mrg_modimoop/mrg_modimoop_description/urdf/mrg_modimoop.urdf.xacro)"
+# from the ws directory to see changes to URDF in RVIZ
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution

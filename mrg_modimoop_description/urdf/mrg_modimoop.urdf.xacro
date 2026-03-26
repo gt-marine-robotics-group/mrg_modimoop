@@ -39,22 +39,22 @@
   <!-- Hull is the base -->
   <link name="hull">
     <inertial>
-      <!--<origin xyz="0	0.75915	-1.33874" rpy="0 0 0"/>-->
-      <origin xyz="0.175 -0.55 0.15" rpy="0 0 0"/>
+      <!--<origin xyz="0 0.75915 -1.33874" rpy="0 0 0"/>-->
+      <origin xyz="0.175 -0.55 0.15" rpy="0 0 1.570796"/>
       <!--<origin xyz="0.175 -1.1 0.575" rpy="0 0 0"/>-->
       <!--<origin xyz="0.175 -0.34085 0.575" rpy="0 0 0"/>-->
       <mass value="${m_hull}"/>
       <inertia ixx="3.70506895" ixy="-0.00022839" ixz="-0.00008461" iyy="0.96696277" iyz="-0.64724529" izz="2.83543540"/>
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="1.570796 0 0"/>
+      <origin xyz="-0.41 -0.725 0" rpy="1.570796 0 1.570796"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/hull/hull.STL" scale="${mesh_scale}"/>
       </geometry>
       <material name="Pink"/>
     </visual>
     <collision name="hull_collision">
-      <origin xyz="0.178 -0.55 0.45" rpy="0 0 1.570796"/>
+      <origin xyz="0.178 -0.55 0.45" rpy="0 0 3.14159"/>
       <geometry>
         <box size="1.125 0.35 0.25"/>
       </geometry>
@@ -64,19 +64,21 @@
   <!-- Wingsail (revolute about vertical axis for trim) -->
   <link name="wingsail">
     <inertial>
-      <origin xyz="0.15 0.034 0.5" rpy="1.570796 0 1.570796"/>
+      <!--<origin xyz="0.15 0.034 0.5" rpy="1.570796 0 1.570796"/> -->
+      <origin xyz="-0.1 0 0.6" rpy="0 0 1.570796"/>
       <mass value="${m_wingsail}"/>
       <inertia ixx="0.78628153" ixy="-0.00004262" ixz="-0.00044123" iyy="0.32623116" iyz="-0.05493911" izz="0.46187925"/>
     </inertial>
     <visual>
-      <origin xyz="-0.025 -0.015 0" rpy="0 0 0"/>
+      <origin xyz="0.05 0.040 0" rpy="0 0 3.14159"/>
+      <!--<origin xyz="-0.025 -0.015 0" rpy="0 0 0"/> -->
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/mainsail/mainsail.STL" scale="${mesh_scale}"/>
       </geometry>
       <material name="Pink"/>
     </visual>
     <collision name="wingsail_collision">
-      <origin xyz="0.15 0.03 0.675" rpy="0 0 0"/>
+      <origin xyz="-0.1 0.0 0.675" rpy="0 0 0"/>
       <geometry>
         <!-- chord, thickness, height (meters) -->
         <box size="0.30 0.04 1.32"/>
@@ -86,19 +88,19 @@
 
   <link name="backwing">
     <inertial>
-      <origin xyz="0.025 0.02 0.2" rpy="1.570796 0 1.570796"/>
+      <origin xyz="-0.035 0.0 0.25" rpy="1.570796 0 1.570796"/>
       <mass value="${m_backwing}"/>
       <inertia ixx="0.00415255" ixy="0.00000002" ixz="0" iyy="0.00011550" iyz="-0.00000140" izz="0.00405022"/>
     </inertial>
     <visual>
-      <origin xyz="-1.3 0.015 -0.5" rpy="1.570796 0 1.570796"/>
+      <origin xyz="1.3 0.0 -0.5" rpy="1.570796 0 -1.570796"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/tailwing/tailwing.STL" scale="${mesh_scale}"/>
       </geometry>
       <material name="Pink"/>
     </visual>
     <collision name="backwing_collision">
-      <origin xyz="0.07 0.03 0.25" rpy="0 0 0"/>
+      <origin xyz="-0.05 0.0 0.25" rpy="0 0 0"/>
       <geometry>
         <!-- chord, thickness, height (meters) -->
         <box size="0.11 0.02 0.55"/>
@@ -109,19 +111,19 @@
   <!-- Rudder (revolute about vertical axis) -->
   <link name="rudder">
     <inertial>
-      <origin xyz="0 0.08 -0.08" rpy="0 0 0"/>
+      <origin xyz="-0.074 0 -0.074" rpy="0 0 0"/>
       <mass value="${m_rudder}"/>
       <inertia ixx="0.00323999" ixy="0.00000021" ixz="0.00000004" iyy="0.00089298" iyz="0.00069153" izz="0.00234885"/>
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 1.570796 0"/>
+      <origin xyz="0 0 0" rpy="-1.570796 1.570796 0"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/rudder/rudder.STL" scale="${mesh_scale}"/>
       </geometry>
       <material name="Black"/>
     </visual>
     <collision name="rudder_collision">
-      <origin xyz="0 0.07 -0.075" rpy="1.570796 1.570796 0"/>
+      <origin xyz="-0.074 0 -0.074" rpy="0 1.570796 0"/>
       <geometry>
         <!-- length (fore-aft), thickness, height (meters) -->
         <box size="0.15 0.01 0.15"/>
@@ -133,7 +135,7 @@
   <link name="keel">
     <inertial>
       <!-- Set the CoM where you expect the keel COM; adjust for your CAD --> <!-- 0.175 -0.55 0.1 -->
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0.0 0.575 -0.55" rpy="0 0 0"/>
       <mass value="${m_keel}"/>
       <inertia ixx="${m_keel*0.016}" ixy="0.0" ixz="0.0" iyy="${m_keel*0.016}" iyz="0.0" izz="${m_keel*0.016}"/>
     </inertial>
@@ -141,7 +143,7 @@
     <!-- Keel visual -->
     <visual>
       <!-- Align to plate’s CAD frame relative to keel link frame -->
-      <origin xyz="0 0 0" rpy="1.570796 0 3.14159"/>
+      <origin xyz="0.57 0.6025 0" rpy="1.570796 0 -1.570796"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel.STL" scale="${mesh_scale}"/>
       </geometry>
@@ -150,7 +152,7 @@
 
     <!-- Plate collision -->
     <collision name="keel_plate_collision">
-      <origin xyz="0.175 -0.55 0.3" rpy="0 0 1.570796"/>
+      <origin xyz="0.0 0.6025 -0.55" rpy="0 0 0"/>
       <geometry>
         <!-- chord, thickness, span (meters) — tune -->
         <box size="0.175 0.0125 0.70"/>
@@ -160,7 +162,7 @@
 
     <!-- Bulb collision -->
     <collision name="keel_bulb_collision">
-      <origin xyz="0.175 -0.565 -0.08" rpy="1.570796 0 0"/>
+      <origin xyz="0.0 0.6025 -0.79" rpy="1.570796 0 1.570796"/>
       <geometry>
         <!-- length is along cylinder Z axis in its collision frame -->
         <cylinder length="0.325" radius="0.045"/>
@@ -183,7 +185,7 @@
   <joint name="wingsail_joint" type="continuous">
     <parent link="hull"/>
     <child link="wingsail"/>
-    <origin xyz="0.2 -0.65 0.65" rpy="0 0 1.570796"/>
+    <origin xyz="0.3 -0.545 0.65" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.2" friction="0.0"/>
   </joint>
@@ -193,7 +195,7 @@
   <joint name="backwing_hinge_joint" type="fixed">
     <parent link="wingsail"/>
     <child link="backwing_hinge"/>
-    <origin xyz="0.45 0.0125 0.4" rpy="0 0 0"/>
+    <origin xyz="-0.8 0.0 0.4" rpy="0 0 0"/>
   </joint>
 
   <joint name="backwing_joint" type="continuous">
@@ -212,7 +214,7 @@
   <joint name="rudder_joint" type="continuous">
     <parent link="hull"/>
     <child link="rudder"/>
-    <origin xyz="0.175 -0.3 0.3" rpy="0 0 0"/>
+    <origin xyz="-0.1 -0.545 0.3" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
@@ -237,18 +239,18 @@
   <joint name="rudder_rod_mount" type="fixed">
     <parent link="hull"/>
     <child link="rudder_rod"/>
-    <origin xyz="0.175 -0.3 0.3" rpy="0 0 0"/>
+    <origin xyz="-0.1 -0.545 0.3" rpy="0 0 0"/>
   </joint>
 
   <link name="wingsail_rod">
     <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0.105 -0.1025 0" rpy="0 0 0"/>
       <mass value="${rod_mass}"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
     </inertial>
 
     <visual>
-      <origin xyz="0 0.01 0" rpy="0 0 0"/>
+      <origin xyz="0.105 -0.1025 0" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="${wingsail_rod_radius}" length="0.40"/>
       </geometry>
@@ -264,16 +266,16 @@
 
   <link name="backwing_rod_top">
     <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.73" rpy="0 0 0"/>
       <mass value="${rod_mass}"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
     </inertial>
 
     <visual>
       <!-- Rotate cylinder so it runs along X -->
-      <origin xyz="-0.1 0.008 0.73" rpy="0 1.570796 0"/>
+      <origin xyz="-0.5 -0.025 0.73" rpy="0 1.570796 0"/>
       <geometry>
-        <cylinder radius="${backwing_rod_radius}" length="0.625"/>
+        <cylinder radius="${backwing_rod_radius}" length="1.2"/>
       </geometry>
       <material name="Black"/>
     </visual>
@@ -281,15 +283,15 @@
 
   <link name="backwing_rod_bottom">
     <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.32" rpy="0 0 0"/>
       <mass value="${rod_mass}"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
     </inertial>
 
     <visual>
-      <origin xyz="-0.1 0.008 0.32" rpy="0 1.570796 0"/>
+      <origin xyz="-0.5 -0.025 0.32" rpy="0 1.570796 0"/>
       <geometry>
-        <cylinder radius="${backwing_rod_radius}" length="0.625"/>
+        <cylinder radius="${backwing_rod_radius}" length="1.2"/>
       </geometry>
       <material name="Black"/>
     </visual>
@@ -351,9 +353,9 @@
           <cda>0.63662</cda>
           <area>0.17</area>
           <fluid_density>1.225</fluid_density>
-          <forward>-1 0 0</forward>
+          <forward>1 0 0</forward>
           <upward>0 1 0</upward>
-          <cp>0.15 0.034 0.5</cp>
+          <cp>-0.1 0 0.6</cp>
           <link_name>wingsail</link_name>
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>
@@ -368,9 +370,9 @@
           <cda>0.63662</cda>
           <area>0.05</area>
           <fluid_density>1.225</fluid_density>
-          <forward>-1 0 0</forward>
+          <forward>1 0 0</forward>
           <upward>0 1 0</upward>
-          <cp>0.025 0.02 0.2</cp>
+          <cp>-0.035 0.0 0.25</cp>
           <link_name>backwing</link_name>
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>
@@ -385,9 +387,9 @@
           <cda>0.63662</cda>
           <area>0.17</area>
           <fluid_density>1000</fluid_density>
-          <forward>0 -1 0</forward>
-          <upward>1 0 0</upward>
-          <cp>0.175 -0.55 0.1</cp>
+          <forward>1 0 0</forward>
+          <upward>0 1 0</upward>
+          <cp>0.0 0.575 -0.55</cp>
           <link_name>keel</link_name>
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>
@@ -401,9 +403,9 @@
           <cda>0.63662</cda>
           <area>0.12</area>
           <fluid_density>1000</fluid_density>
-          <forward>0 -1 0</forward>
-          <upward>1 0 0</upward>
-          <cp>0 0.08 -0.08</cp>
+          <forward>1 0 0</forward>
+          <upward>0 1 0</upward>
+          <cp>-0.074 0 -0.074</cp>
           <link_name>rudder</link_name>
           <radial_symmetry>1</radial_symmetry>
           <topic>lift_drag</topic>

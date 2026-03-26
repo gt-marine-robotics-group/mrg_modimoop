@@ -9,8 +9,8 @@
       <static>0</static>
       <update_rate>30</update_rate>
       <wave>
-        <tile_size>1024</tile_size>
-        <cell_count>128</cell_count>
+        <tile_size>2048</tile_size>
+        <cell_count>256</cell_count>
 
         <algorithm>sinusoid</algorithm>
         <amplitude>0.25</amplitude>
@@ -41,7 +41,7 @@
           </pbr>
         </material>
 
-        <!--<plugin
+        <plugin
             filename="gz-waves1-waves-visual-system"
             name="gz::sim::systems::WavesVisual">
           <static>0</static>
@@ -63,7 +63,7 @@
             <fragment>models://waves/materials/waves_fs.metal</fragment>
           </shader>
 
-        </plugin> -->
+        </plugin>
       </visual>
     </link>
   </model>

@@ -4,7 +4,7 @@
   gz_type_name: "gz.msgs.IMU"
   direction: GZ_TO_ROS
 
-- ros_topic_name: "/modimoop/gps"
+- ros_topic_name: "/modimoop/navsat"
   gz_topic_name: "/modimoop/navsat"
   ros_type_name: "sensor_msgs/msg/NavSatFix"
   gz_type_name: "gz.msgs.NavSat"
