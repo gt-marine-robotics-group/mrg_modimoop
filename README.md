@@ -35,20 +35,22 @@ and then
 ```bash
 export GZ_SIM_RESOURCE_PATH=\
 $GZ_SIM_RESOURCE_PATH:\
-$HOME/gz_ws/src/asv_wave_sim/gz-waves-models/models:\
-$HOME/gz_ws/src/asv_wave_sim/gz-waves-models/world_models:\
-$HOME/gz_ws/src/asv_wave_sim/gz-waves-models/worlds
+$HOME/microtransat_ws/src/asv_wave_sim/gz-waves-models/models:\
+$HOME/microtransat_ws/src/asv_wave_sim/gz-waves-models/world_models:\
+$HOME/microtransat_ws/src/asv_wave_sim/gz-waves-models/worlds
 
 export GZ_SIM_SYSTEM_PLUGIN_PATH=\
 $GZ_SIM_SYSTEM_PLUGIN_PATH:\
-$HOME/gz_ws/install/lib
+$HOME/microtransat_ws/install/lib
 
 export GZ_GUI_PLUGIN_PATH=\
 $GZ_GUI_PLUGIN_PATH:\
-$HOME/gz_ws/src/asv_wave_sim/gz-waves/src/gui/plugins/waves_control/build
-```
+$HOME/microtransat_ws/src/asv_wave_sim/gz-waves/src/gui/plugins/waves_control/build
 
-replacing gz_ws with your workspace name.
+export GZ_SIM_RESOURCE_PATH=\
+$GZ_SIM_RESOURCE_PATH:\
+$HOME/microtransat_ws/src/mrg_modimoop/mrg_modimoop_description/world_models
+```
 
 ## Building
 
