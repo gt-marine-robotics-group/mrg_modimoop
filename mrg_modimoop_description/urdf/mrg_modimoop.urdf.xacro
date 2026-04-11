@@ -442,6 +442,7 @@
       <update_rate>200</update_rate>
       <visualize>0</visualize>
       <topic>/modimoop/imu</topic>
+      <gz_frame_id>imu_link</gz_frame_id>
 
       <imu>
         <angular_velocity>
@@ -454,6 +455,12 @@
           <y><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></y>
           <z><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></z>
         </linear_acceleration>
+        <orientation>
+          <x><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></z>
+          <w><noise type="gaussian"><mean>0</mean><stddev>0.01</stddev></noise></w>
+        </orientation>
       </imu>
     </sensor>
   </gazebo>
@@ -463,6 +470,7 @@
       <always_on>1</always_on>
       <update_rate>30</update_rate>
       <topic>anemometer</topic>
+      <gz_frame_id>aneomometer_link</gz_frame_id>
       <gz:anemometer>
          <!-- <noise type="gaussian">
          <mean>0.2</mean>
@@ -478,6 +486,7 @@
       <always_on>1</always_on>
       <update_rate>10</update_rate>
       <topic>/modimoop/navsat</topic>
+      <gz_frame_id>gps_link</gz_frame_id>
       <visualize>0</visualize>
     </sensor>
   </gazebo>
@@ -489,6 +498,7 @@
       <update_rate>50</update_rate>
       <visualize>0</visualize>
       <topic>/modimoop/mag</topic>
+      <gz_frame_id>mag_link</gz_frame_id>
       <magnetometer/>
     </sensor>
   </gazebo>
