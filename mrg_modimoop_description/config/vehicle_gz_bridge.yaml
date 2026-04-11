@@ -1,4 +1,4 @@
-- ros_topic_name: "/modimoop/imu"
+- ros_topic_name: "/modimoop/imu_raw"
   gz_topic_name: "/modimoop/imu"
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"
