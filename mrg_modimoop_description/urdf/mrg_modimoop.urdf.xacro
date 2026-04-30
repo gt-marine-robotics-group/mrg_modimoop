@@ -47,14 +47,14 @@
       <inertia ixx="3.70506895" ixy="-0.00022839" ixz="-0.00008461" iyy="0.96696277" iyz="-0.64724529" izz="2.83543540"/>
     </inertial>
     <visual>
-      <origin xyz="-0.41 -0.725 0" rpy="1.570796 0 1.570796"/>
+      <origin xyz="-0.41 -0.725 0" rpy="${pi/2} 0 ${pi/2}"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/hull/hull.STL" scale="${mesh_scale}"/>
       </geometry>
       <material name="Pink"/>
     </visual>
     <collision name="hull_collision">
-      <origin xyz="0.178 -0.55 0.45" rpy="0 0 3.14159"/>
+      <origin xyz="0.178 -0.55 0.45" rpy="0 0 ${pi}"/>
       <geometry>
         <box size="1.125 0.35 0.25"/>
       </geometry>
@@ -65,12 +65,12 @@
   <link name="wingsail">
     <inertial>
       <!--<origin xyz="0.15 0.034 0.5" rpy="1.570796 0 1.570796"/> -->
-      <origin xyz="-0.1 0 0.6" rpy="0 0 1.570796"/>
+      <origin xyz="-0.1 0 0.6" rpy="0 0 ${pi/2}"/>
       <mass value="${m_wingsail}"/>
       <inertia ixx="0.78628153" ixy="-0.00004262" ixz="-0.00044123" iyy="0.32623116" iyz="-0.05493911" izz="0.46187925"/>
     </inertial>
     <visual>
-      <origin xyz="0.05 0.040 0" rpy="0 0 3.14159"/>
+      <origin xyz="0.05 0.040 0" rpy="0 0 ${pi}"/>
       <!--<origin xyz="-0.025 -0.015 0" rpy="0 0 0"/> -->
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/mainsail/mainsail.STL" scale="${mesh_scale}"/>
@@ -88,12 +88,12 @@
 
   <link name="backwing">
     <inertial>
-      <origin xyz="-0.035 0.0 0.25" rpy="1.570796 0 1.570796"/>
+      <origin xyz="-0.035 0.0 0.25" rpy="${pi/2} 0 ${pi/2}"/>
       <mass value="${m_backwing}"/>
       <inertia ixx="0.00415255" ixy="0.00000002" ixz="0" iyy="0.00011550" iyz="-0.00000140" izz="0.00405022"/>
     </inertial>
     <visual>
-      <origin xyz="1.3 0.0 -0.5" rpy="1.570796 0 -1.570796"/>
+      <origin xyz="1.3 0.0 -0.5" rpy="${pi/2} 0 -${pi/2}"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/tailwing/tailwing.STL" scale="${mesh_scale}"/>
       </geometry>
@@ -116,14 +116,14 @@
       <inertia ixx="0.00323999" ixy="0.00000021" ixz="0.00000004" iyy="0.00089298" iyz="0.00069153" izz="0.00234885"/>
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="-1.570796 1.570796 0"/>
+      <origin xyz="0 0 0" rpy="-${pi/2} ${pi/2} 0"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/rudder/rudder.STL" scale="${mesh_scale}"/>
       </geometry>
       <material name="Black"/>
     </visual>
     <collision name="rudder_collision">
-      <origin xyz="-0.074 0 -0.074" rpy="0 1.570796 0"/>
+      <origin xyz="-0.074 0 -0.074" rpy="0 ${pi/2} 0"/>
       <geometry>
         <!-- length (fore-aft), thickness, height (meters) -->
         <box size="0.15 0.01 0.15"/>
@@ -143,7 +143,7 @@
     <!-- Keel visual -->
     <visual>
       <!-- Align to plate’s CAD frame relative to keel link frame -->
-      <origin xyz="0.57 0.6025 0" rpy="1.570796 0 -1.570796"/>
+      <origin xyz="0.57 0.6025 0" rpy="${pi/2} 0 -${pi/2}"/>
       <geometry>
         <mesh filename="package://mrg_modimoop_description/models/mrg_modimoop_base/keel/keel.STL" scale="${mesh_scale}"/>
       </geometry>
@@ -162,7 +162,7 @@
 
     <!-- Bulb collision -->
     <collision name="keel_bulb_collision">
-      <origin xyz="0.0 0.6025 -0.79" rpy="1.570796 0 1.570796"/>
+      <origin xyz="0.0 0.6025 -0.79" rpy="${pi/2} 0 ${pi/2}"/>
       <geometry>
         <!-- length is along cylinder Z axis in its collision frame -->
         <cylinder length="0.325" radius="0.045"/>
@@ -187,7 +187,7 @@
     <child link="wingsail"/>
     <origin xyz="0.3 -0.545 0.65" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <dynamics damping="0.2" friction="0.0"/>
+    <dynamics damping="2.5" friction="0.45"/>
   </joint>
 
   <link name="backwing_hinge"/>
@@ -207,7 +207,7 @@
     <!-- coaxial -->
     <axis xyz="0 0 1"/>
 
-    <dynamics damping="0.05" friction="0.0"/>
+    <dynamics damping="0.2" friction="0.35"/>
   </joint>
 
   <!-- Rudder rotates around Z for yaw -->
@@ -216,7 +216,7 @@
     <child link="rudder"/>
     <origin xyz="-0.1 -0.545 0.3" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <dynamics damping="0.1" friction="0.0"/>
+    <dynamics damping="0.2" friction="0.35"/>
   </joint>
 
 
@@ -317,7 +317,6 @@
   <joint name="imu_mount" type="fixed">
     <parent link="hull"/>
     <child link="imu_link"/>
-    <!-- put IMU near your hull CG -->
     <origin xyz="0.175 -0.55 0.45" rpy="0 0 0"/>
   </joint>
 
@@ -333,7 +332,7 @@
   <joint name="anemometer_mount" type="fixed">
     <parent link="hull"/>
     <child link="anemometer_link"/>
-    <origin xyz="0.25 -0.55 1.00" rpy="0 0 0"/>
+    <origin xyz="0.25 -0.55 1.00" rpy="0 0 ${pi}"/>
   </joint>
 
   <link name="mag_link"/>
@@ -386,7 +385,7 @@
           <cla_stall>-0.7083</cla_stall>
           <cda>0.63662</cda>
           <area>0.17</area>
-          <fluid_density>1000</fluid_density>
+          <fluid_density>1025</fluid_density>
           <forward>1 0 0</forward>
           <upward>0 1 0</upward>
           <cp>0.0 0.575 -0.55</cp>
@@ -397,12 +396,12 @@
         <plugin name="gz::sim::systems::FoilLiftDrag"
             filename="asv_sim2-foil-lift-drag-system">
           <a0>0.0</a0>
-          <cla>6.2832</cla>
+          <cla>5.0</cla>
           <alpha_stall>0.1592</alpha_stall>
           <cla_stall>-0.7083</cla_stall>
           <cda>0.63662</cda>
-          <area>0.12</area>
-          <fluid_density>1000</fluid_density>
+          <area>0.02322576</area>
+          <fluid_density>1025</fluid_density>
           <forward>1 0 0</forward>
           <upward>0 1 0</upward>
           <cp>-0.074 0 -0.074</cp>
@@ -431,7 +430,7 @@
         </plugin>
   </gazebo>
 
-    <!-- ===================== -->
+  <!-- ===================== -->
   <!-- Gazebo sensors        -->
   <!-- ===================== -->
 
@@ -443,7 +442,7 @@
       <visualize>0</visualize>
       <topic>/modimoop/imu</topic>
       <gz_frame_id>imu_link</gz_frame_id>
-
+      <pose>0 0 0 0 -1.570796327</pose>
       <imu>
         <angular_velocity>
           <x><noise type="gaussian"><mean>0</mean><stddev>0.0002</stddev></noise></x>
@@ -471,6 +470,7 @@
       <update_rate>30</update_rate>
       <topic>anemometer</topic>
       <gz_frame_id>aneomometer_link</gz_frame_id>
+      <pose>0 0 0 0 0 0</pose>
       <gz:anemometer>
          <!-- <noise type="gaussian">
          <mean>0.2</mean>
@@ -487,6 +487,7 @@
       <update_rate>10</update_rate>
       <topic>/modimoop/navsat</topic>
       <gz_frame_id>gps_link</gz_frame_id>
+      <pose>0 0 0 0 0 -1.570796327</pose>
       <visualize>0</visualize>
     </sensor>
   </gazebo>
@@ -499,6 +500,7 @@
       <visualize>0</visualize>
       <topic>/modimoop/mag</topic>
       <gz_frame_id>mag_link</gz_frame_id>
+      <pose>0 0 0 0 0 -1.570796327</pose>
       <magnetometer/>
     </sensor>
   </gazebo>
@@ -520,7 +522,6 @@
             name="gz::sim::systems::JointPositionController">
       <joint_name>wingsail_joint</joint_name>
       <topic>/modimoop/cmd/wingsail_pos</topic>
-      <!-- optional PID knobs depending on version; start without -->
     </plugin>
 
     <plugin filename="gz-sim-joint-position-controller-system"
