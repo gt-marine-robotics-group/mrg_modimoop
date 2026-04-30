@@ -13,8 +13,8 @@
         <cell_count>256</cell_count>
 
         <algorithm>sinusoid</algorithm>
-        <amplitude>0.25</amplitude>
-        <period>10.0</period>
+        <amplitude>0.1</amplitude>
+        <period>100.0</period>
         <direction>1 1</direction>
       </wave>
     </plugin>
@@ -53,8 +53,8 @@
           <cell_count>128</cell_count>
 
           <algorithm>sinusoid</algorithm>
-          <amplitude>0.25</amplitude>
-          <period>10.0</period>
+          <amplitude>0.1</amplitude>
+          <period>100.0</period>
           <direction>1 1</direction>
           </wave>
 
