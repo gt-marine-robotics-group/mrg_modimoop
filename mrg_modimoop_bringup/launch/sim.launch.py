@@ -1,4 +1,5 @@
 from launch import LaunchDescription
+from launch_ros.actions import Node
 from launch.actions import IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
@@ -23,9 +24,8 @@ def generate_launch_description():
         launch_arguments={'world': 'ocean'}.items()
     )
 
-    # Include the vehicle launch with a 10-second delay
     delayed_vehicle_launch = TimerAction(
-        period=5.0,  # wait 10 seconds
+        period=1.0, 
         actions=[
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(vehicle_launch_file),
@@ -38,5 +38,23 @@ def generate_launch_description():
 
     return LaunchDescription([
         world_launch,
-        delayed_vehicle_launch
+        delayed_vehicle_launch,
+
+        Node(
+            package='imu_filter_madgwick',
+            executable='imu_filter_madgwick_node',
+            name='imu_filter',
+            output='screen',
+            parameters=[{
+                'use_magnetic_field_msg': True,
+                'world_frame': 'enu',
+                'publish_tf': False,
+                'use_sim_time': True,
+            }],
+            remappings=[
+                ('/imu/data_raw', '/modimoop/imu_raw'),
+                ('/imu/mag', '/modimoop/mag'),
+                ('/imu/data', '/modimoop/imu'),
+            ]
+        ),
     ])
