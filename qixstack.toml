@@ -58,7 +58,6 @@ dependencies = [
 ]
 
 [tool.colcon.dependencies]
-mrg-modimoop = { version = "main" }
 mrg-modimoop-controls = { server = "github.com", namespace = "gt-marine-robotics-group", name = "mrg_modimoop_control", version = "master" }
 asv-wave-sim = { server = "github.com", namespace = "gt-marine-robotics-group", name = "asv_wave_sim", version = "master" }
 asv-sim = { server = "github.com", namespace = "srmainwaring", name = "asv_sim", version = "main" }
