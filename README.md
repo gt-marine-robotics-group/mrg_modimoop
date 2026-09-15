@@ -99,9 +99,13 @@ source /opt/ros/jazzy/setup.bash
 colcon build --merge-install
 source install/setup.bash
 ```
-
    4. Run the Sim and launch the Controls package in two different terminals or tmux:
 ```
 ros2 launch mrg_modimoop_bringup sim.launch.py
 ros2 launch mrg_modimoop_control control.launch.py
 ```
+
+
+## Developing
+
+When developing in this workspace, **never push directly to main or master branches.** Instead, always develop on a well-named branch associated with your projects and push to it instead. When you are ready to merge, open a pull request for review.
