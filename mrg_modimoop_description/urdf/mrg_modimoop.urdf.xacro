@@ -102,7 +102,7 @@
     <parent link="wingsail_link"/>
     <child link="tailwing_link"/>
     <axis xyz="0 0 -1"/>
-    <limit lower="-0.785" upper="0.785" effort="5.0" velocity="1.0"/>
+    <limit lower="-0.785" upper="0.785" effort="1.0" velocity="0.2"/>
     <dynamics damping="0.2" friction="0.05"/>
   </joint>
   <link name="rudder_link">
@@ -132,7 +132,7 @@
     <parent link="hull_link"/>
     <child link="rudder_link"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-0.785" upper="0.785" effort="5.0" velocity="1.0"/>
+    <limit lower="-0.785" upper="0.785" effort="1.0" velocity="0.2"/>
     <dynamics damping="0.2" friction="0.05"/>
   </joint>
   <link name="imu_link"/>
@@ -355,10 +355,6 @@
     </plugin>
   </gazebo>
   <gazebo>
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
-      <joint_name>wingsail_joint</joint_name>
-      <topic>/modimoop/cmd/wingsail_pos</topic>
-    </plugin>
     <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>rudder_joint</joint_name>
       <topic>/modimoop/cmd/rudder_pos</topic>
