@@ -1,0 +1,22 @@
+name: simulation_southwest_wind_0deg
+description: Controls heading step across zero from 330 to 0 degrees with 10 m/s southwest world wind
+mode: simulation
+duration_s: 20.0
+warmup_s: 10.0
+startup_timeout_s: 90.0
+wall_timeout_s: 3600.0
+seed: 1
+# ENU yaw: 0 degrees points along world +x. The wrapped step is +30 degrees.
+initial: {heading_deg: 330.0, speed_mps: 0.0}
+targets: [{at_s: 0.0, heading_deg: 0.0}]
+input: {}
+simulation:
+  wind_world_mps: [0.0, -5.0, 0.0]
+parameters: {sensor_timeout_s: 0.6, target_timeout_s: 2.0}
+evaluation: {steady_window_s: 30.0, settling_band_deg: 10.0, settling_dwell_s: 10.0}
+thresholds:
+  max_steady_error_deg: 15.0
+  min_error_reduction_deg: 5.0
+  min_forward_speed_mps: 0.1
+  rudder_limit_rad: 0.785398
+  backwing_limit_rad: 0.349066

@@ -1,0 +1,14 @@
+name: isolated_nominal
+description: Fixed state, moderate positive heading request and valid bounded commands
+mode: isolated
+duration_s: 2.0
+warmup_s: 0.5
+startup_timeout_s: 10
+wall_timeout_s: 15
+seed: 1
+initial: {heading_deg: 0, speed_mps: 3.0}
+targets: [{at_s: 0, heading_deg: 30}]
+input: {wind_x_mps: 6.0, wind_y_mps: 0.0}
+parameters: {sensor_timeout_s: 0.35, target_timeout_s: 2.0}
+evaluation: {steady_window_s: 0.5, settling_band_deg: 10, settling_dwell_s: 0.5}
+thresholds: {rudder_limit_rad: 0.785398, backwing_limit_rad: 0.349066}

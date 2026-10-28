@@ -22,7 +22,9 @@ dependencies = [
     "ros-jazzy-ros-gz-bridge",
     "ros-jazzy-rosbridge-suite",
     "ros-jazzy-foxglove-bridge",
-
+    "ros-jazzy-imu-filter-madgwick",
+    "ros-jazzy-rmw-zenoh-cpp",
+    
     # GUI and analysis tools
     "ros-jazzy-rviz2",
     "ros-jazzy-rqt",
@@ -42,6 +44,7 @@ dependencies = [
     "tmuxp",
     "nano",
     "git",
+    
 
     # ASV Sim Dependencies
     "libcgal-dev",

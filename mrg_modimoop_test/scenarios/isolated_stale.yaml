@@ -1,0 +1,13 @@
+name: isolated_stale
+description: Controller commands safe zero after state messages cease
+mode: isolated
+duration_s: 2.5
+warmup_s: 0.5
+startup_timeout_s: 10
+wall_timeout_s: 15
+initial: {heading_deg: 0, speed_mps: 3.0}
+targets: [{at_s: 0, heading_deg: 30}]
+input: {stop_at_s: 1.0}
+parameters: {sensor_timeout_s: 0.35, publish_safe_on_stale: true}
+evaluation: {safe_after_s: 1.5}
+thresholds: {rudder_limit_rad: 0.785398, backwing_limit_rad: 0.349066}

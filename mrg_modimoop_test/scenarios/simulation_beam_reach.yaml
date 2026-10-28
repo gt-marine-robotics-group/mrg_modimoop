@@ -1,0 +1,15 @@
+name: simulation_beam_reach
+description: Beam reach under the repository ocean world's 6 m/s east wind
+mode: simulation
+duration_s: 25.0
+warmup_s: 8.0
+startup_timeout_s: 90
+wall_timeout_s: 180
+seed: 1
+initial: {heading_deg: 90, speed_mps: 0.0}
+targets: [{at_s: 0, heading_deg: 105}]
+input: {}
+simulation: {wind_world_mps: [6.0, 0.0, 0.0]}
+parameters: {sensor_timeout_s: 0.6, target_timeout_s: 2.0}
+evaluation: {steady_window_s: 5, settling_band_deg: 15, settling_dwell_s: 2}
+thresholds: {max_steady_error_deg: 20, min_error_reduction_deg: 3, min_speed_mps: 0.1, min_forward_speed_mps: 0.1, rudder_limit_rad: 0.785398, backwing_limit_rad: 0.349066}
